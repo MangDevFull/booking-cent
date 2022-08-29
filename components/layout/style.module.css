@@ -1,0 +1,29 @@
+.textNav {
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 19px;
+}
+
+.buttonLogin {
+  width: 120px;
+  height: 36px;
+  background-color: #FFBB95;
+  border-radius: 4px;
+  border: none;
+}
+
+.inputSearch {
+  width: 16rem;
+  height: 36px;
+  box-sizing: border-box;
+  background: #FFFFFF;
+border: 1px solid #FFD6D6;
+border-radius: 4px
+}
+.textFooter{
+  font-style: normal;
+font-weight: 400;
+font-size: 18px;
+line-height: 150%;
+color: #000000;
+}
