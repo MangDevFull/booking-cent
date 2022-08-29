@@ -1,0 +1,63 @@
+.wrap{
+  border-radius: 8px 8px 0px 0px;
+  background: #E98362;
+}
+.text1{
+  font-weight: 400;
+font-size: 20px;
+line-height: 25px;
+text-align: center;
+background-color: #E98362;
+color: #FFFFFF;
+margin-bottom: 0px;
+border-radius: 8px 8px 0px 0px;
+}
+.text2{
+background-color: #E98362;
+color: #FFFFFF;
+margin-bottom: 0px;
+border-radius: 8px 8px 0px 0px;
+cursor: pointer;
+}
+.text3{
+  font-weight: 400;
+font-size: 20px;
+line-height: 25px;
+background-color: #E98362;
+}
+.text4{
+  font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 18px;
+color: #000000;
+}
+.background{
+background: #F5F5F5;
+}
+.boxShawdow{
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+  border-radius: 8px 8px 0px 0px;
+  border-radius: 8px;
+}
+.chooseLocation{
+  background: #FFF6F0;
+border-radius: 8px;
+}
+.buttonAddService{
+  background: #FFFFFF;
+border: 1px solid #D35B34;
+border-radius: 200px;
+color: #D35B34;
+
+}
+.chooseHour{
+  background: #FFE9E2;
+}
+.textSubmit{
+  background: #D35B34;
+border-radius: 8px;
+color: white;
+border: none;
+font-size: 20px;
+}

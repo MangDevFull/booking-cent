@@ -120,7 +120,7 @@ body {
 
 
 $bg-color: white;
-$primaryTheme-color:#f89922;
+$primaryTheme-color:#D35B34;
 $grey-color:#a3aec2;
 $darkGrey-color:#444a59;
 $tag-color:#03a9f4;
@@ -159,9 +159,15 @@ $tag-color:#03a9f4;
     color:$color-title;
     .step-heading{
       font-size:14px;
-      color:$color-heading;
+      color:#D35B34;
       margin-bottom:5px;
-      font-weight:100;
+      font-weight: 400
+    }
+    .step-heading2{
+      font-size:14px;
+      color:#9E9E9E;
+      margin-bottom:5px;
+      font-weight: 400
     }
     .step-title{
       font-size:16px;
@@ -190,14 +196,54 @@ $tag-color:#03a9f4;
       background-color:$color-primary;
     } 
 }
+@mixin stepStyling1($color-primary,$color-title,$color-heading,$barBG-color,$border-thickness){
+  position:relative;
+  margin-bottom:25px;
+  color:$color-title;
+  .step-heading{
+    font-size:14px;
+    color:#D35B34;
+    margin-bottom:5px;
+    font-weight: 400
+  }
+  .step-heading2{
+    font-size:14px;
+    color:#9E9E9E;
+    margin-bottom:5px;
+    font-weight: 400
+  }
+  .step-title{
+    font-size:16px;
+    color:$color-title;
+    font-weight:700;
+    margin-bottom:4px;   
+  }  
+  &:before{
+    content:'';
+    position:absolute;
+    top:0px;
+    left:-20px;
+    border-radius:100%;
+    width:15px;
+    height:15px;
+    background-color:$barBG-color;
+    border: $border-thickness solid $color-primary;
+  }
+}
  .step-incomplete{
    @include stepStyling($grey-color,$grey-color,$grey-color,$grey-color,0);
+}
+.step-incomplete-last{
+  @include stepStyling1($grey-color,$grey-color,$grey-color,$grey-color,0);
 }
  .step-current{
    @include stepStyling($primaryTheme-color,$darkGrey-color,$grey-color,white,2px);
 } 
  .step-completed{
    @include stepStyling($primaryTheme-color,$darkGrey-color,$grey-color,$primaryTheme-color,0);
+}
+.step-completed-last{
+  @include stepStyling1($primaryTheme-color,$darkGrey-color,$grey-color,$primaryTheme-color,0);
 }
 
 @media (min-width: 1430px) {

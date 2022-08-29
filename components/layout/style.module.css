@@ -1,7 +1,14 @@
 .textNav {
+  font-family: 'Circular Std';
+  font-style: normal;
   font-weight: 400;
-  font-size: 11px;
-  line-height: 19px;
+  font-size: 14px;
+  line-height: 18px;
+  /* identical to box height */
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #000000;
+  cursor: pointer;
 }
 
 .buttonLogin {
