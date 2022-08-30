@@ -61,3 +61,53 @@ color: white;
 border: none;
 font-size: 20px;
 }
+.warpServices{
+  height: 400px;
+  overflow: scroll;
+}
+.boxShawdow2{
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+  border-radius: 8px 8px 0px 0px;
+  border-radius: 8px;
+}
+.textItem{
+  font-weight: 400;
+font-size: 16px;
+line-height: 20px;
+
+color: #000000;
+}
+.textPrice{
+  font-weight: 400;
+font-size: 16px;
+line-height: 20px;
+
+color: #D35B34;
+}
+.checkOut{
+  background: #FFF6F0;
+border-radius: 8px;
+}
+.text5{
+  font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 20px;
+color: #343434;
+}
+.text6{
+  font-style: normal;
+font-weight: 300;
+font-size: 14px;
+line-height: 20px;
+color: #343434;
+}
+.button2{
+  background: #D35B34;
+border-radius: 8px;
+color: white;
+font-size: 12px;
+border: none;
+padding: 8px;
+width: 120px;
+}

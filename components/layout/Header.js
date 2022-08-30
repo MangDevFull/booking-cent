@@ -11,7 +11,7 @@ export default function HeaderLayout() {
           <Navbar.Collapse id="navbarScroll" className="pl-2 pr-2">
             <Nav
               className="me-auto my-2 my-lg-0"
-              style={{ maxHeight: '100px', marginLeft: "15rem" }}
+              style={{ maxHeight: '100px' }}
               navbarScroll
             >
               <Link href={`./`}>
@@ -45,7 +45,7 @@ export default function HeaderLayout() {
                 </Nav>
               </Link>
             </Nav>
-            <div className="d-flex" style={{ marginRight: "15rem" }}>
+            <div className="d-flex">
               <input
                 type="search"
                 placeholder="Tìm kiếm"

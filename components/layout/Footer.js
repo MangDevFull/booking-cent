@@ -2,7 +2,7 @@ import { Row, Container, Col } from "react-bootstrap"
 import { PhoneOutlined, DiffOutlined, HomeOutlined, MailOutlined } from "@ant-design/icons"
 export default function Footer() {
   return (
-    <Container style={{ marginLeft: "20rem", marginRight: "20rem" }}>
+    <Container>
       <Row className="mb-3">
         <Col xs={3}>Logo</Col>
         <Col xs={3}><b>Giờ phục vụ</b></Col>

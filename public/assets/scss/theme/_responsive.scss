@@ -20,7 +20,18 @@ body {
     }
   }
 }
-
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #D35B34 !important; 
+  font-weight: 500;
+  font-size: 10px;
+}
+.ant-tabs-tab-btn{
+  font-size: 10px;
+}
+.ant-tabs-ink-bar {
+  border: 1px solid #D35B34;
+  pointer-events: none;
+}
 .steps .step {
   display: block;
   width: 100%;
