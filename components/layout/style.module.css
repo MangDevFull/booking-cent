@@ -1,22 +1,23 @@
 .textNav {
-  font-family: 'Circular Std';
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
-  /* identical to box height */
   text-transform: uppercase;
-  text-decoration: none;
   color: #000000;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
   cursor: pointer;
 }
 
 .buttonLogin {
   width: 120px;
   height: 36px;
-  background-color: #FFBB95;
-  border-radius: 4px;
-  border: none;
+  
+background: #D35B34;
+border: 1px solid #FFDBCB;
+border-radius: 80px;
+color: white;
 }
 
 .inputSearch {
@@ -24,13 +25,88 @@
   height: 36px;
   box-sizing: border-box;
   background: #FFFFFF;
-border: 1px solid #FFD6D6;
-border-radius: 4px
+  border: 1px solid #FFD6D6;
+  border-radius: 4px
 }
-.textFooter{
+
+.textFooter {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 150%;
+  color: #000000;
+}
+.wrap{
+  border-radius: 80px;
+  background: white
+}
+.text1{
   font-style: normal;
 font-weight: 400;
-font-size: 18px;
+font-size: 14px;
+line-height: 12px;
+/* identical to box height */
+
+
+color: #D35B34;
+
+}
+.textHeading{
+  font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 129%;
+color: #FFFFFF;
+}
+.textLi{
+font-weight: 400;
+font-size: 14px;
+/* or 24px */
+
+
+color: #FFFFFF;
+}
+.inputNote{
+
+background: #FFFFFF;
+border: 1px solid #D6D6D6;
+border-radius: 8px;
+}
+.text4{
+  font-style: normal;
+font-weight: 400;
+font-size: 16px;
 line-height: 150%;
+/* identical to box height, or 24px */
+
+
+color: #FFFFFF;
+}
+.text5{
 color: #000000;
+font-size: 16px;
+}
+.inputPhone{
+  height: 48px;
+    border-radius: 4px;
+    border: 2px solid #a3a3a3;
+    color: #222;
+    width: 100%;
+}
+.buttonLogin2{
+  width: 100%;
+  border-radius: 4px;
+  height: 48px;
+  font-size: 18px;
+  background-color: #D35B34;
+  color: white;
+  border: none;
+}
+.buttonCan{
+  border: 2px solid #000;
+    border-radius: 4px;
+    margin-right: 18px;
+    background: #fff;
+    color: #222;
+    width: 100%;
 }

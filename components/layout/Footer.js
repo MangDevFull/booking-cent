@@ -1,54 +1,75 @@
 import { Row, Container, Col } from "react-bootstrap"
-import { PhoneOutlined, DiffOutlined, HomeOutlined, MailOutlined } from "@ant-design/icons"
+import { PhoneOutlined, DiffOutlined, HomeOutlined, MailOutlined, BankOutlined } from "@ant-design/icons"
+import styles from "./style.module.css"
 export default function Footer() {
   return (
-    <Container>
-      <Row className="mb-3">
-        <Col xs={3}>Logo</Col>
-        <Col xs={3}><b>Giờ phục vụ</b></Col>
-        <Col xs={6}><b>Cơ sở hiện tại</b></Col>
+    <div style={{ background: "red" }}>
+      <Row className="mt-5 p-2 mb-3">
+        <Col md={{ span: 10, offset: 1 }}>
+          <Row style={{ borderBottom: "1px solid white" }}>
+            <Col lg={3} sm={8} className="mb-2">
+              <h4 className={styles.textHeading}>Feedback</h4>
+              <p className={styles.textLi}>Mọi vấn đề về chất lượng dịch vụ xin hay báo cho chúng tôi qua các kênh:</p>
+              <input className={`${styles.inputNote} p-2 w-100`} placeholder="Ý kiến của bạn" />
+            </Col>
+            <Col lg={3} sm={8}>
+              <h4 className={`${styles.textHeading}`}>Chăm sóc khách hàng</h4>
+              <ul className="pl-0">
+                <p className={styles.textLi}>Hỏi đáp - FAQs</p>
+                <p className={styles.textLi}>Trung tâm trợ giúp</p>
+                <p className={styles.textLi}>Gói quà tặng</p>
+                <p className={styles.textLi}>Thành viên Cent Loyalty</p>
+                <p className={styles.textLi}>Chính sách khuyến mãi</p>
+                <p className={styles.textLi}>Chính sách thanh toán</p>
+                <p className={styles.textLi}>Chính sách bảo mật thanh toán</p>
+              </ul>
+            </Col>
+            <Col lg={3} sm={8}>
+              <h4 className={`${styles.textHeading}`}>Về Cent'</h4>
+              <ul className="pl-0">
+                <p className={styles.textLi}> Câu chuyện về Cent</p>
+                <p className={styles.textLi}>Gia nhập Cent</p>
+                <p className={styles.textLi}> Be Confident Be Happy</p>
+                <p className={styles.textLi}> Hệ thống cửa hàng</p>
+
+              </ul>
+            </Col>
+            <Col lg={3} sm={8}>
+              <h4 className={`${styles.textHeading}`}>Khám phá & trải nghiệm</h4>
+              <ul className="pl-0">
+                <p className={styles.textLi}>Chăm sóc da</p>
+                <p className={styles.textLi}> Chăm sóc body</p>
+                <p className={styles.textLi}> Liệu trình triệt lông</p>
+                <p className={styles.textLi}> Phun xăm thẩm mĩ</p>
+                <p className={styles.textLi}> Cent Lab</p>
+              </ul>
+            </Col>
+          </Row>
+          <Row className="mt-3">
+            <span className={styles.text4}>Công ty Cổ Phần Dịch Vụ Cent Beauty</span>
+            <Col xs={12} className="d-flex mt-3">
+              <HomeOutlined style={{ color: "white" }} className="mr-2 mt-1" />
+              <p className={styles.textLi}>Địa chỉ: Số 8, ngõ 100 Trần Duy Hưng, Trung Hoà, Cầu Giấy, Hà Nội</p>
+            </Col>
+            <Col xs={12} className="d-flex">
+              <BankOutlined style={{ color: "white" }} className="mr-2 mt-1" />
+              <p className={styles.textLi}>Office: 33 Ngõ 75 Trần Thái Tông, Dịch Vọng, Cầu Giấy, Hà Nội</p>
+            </Col>
+            <Col xs={12} className="d-flex">
+              <PhoneOutlined style={{ color: "white" }} className="mr-2 mt-1" />
+              <p className={styles.textLi}>Hotline: 1900.636833</p>
+            </Col>
+            <Col xs={12} className="d-flex">
+              <MailOutlined style={{ color: "white" }} className="mr-2 mt-1" />
+              <p className={styles.textLi}>Email: cskh@centbeauty.com</p>
+            </Col>
+            <Col xs={12} className="d-flex">
+              <DiffOutlined style={{ color: "white" }} className="mr-2 mt-1" />
+              <p className={styles.textLi}>Mã số thuế: 0108852257</p>
+            </Col>
+          </Row>
+        </Col>
       </Row>
-      <Row>
-        <Col xs={3}>
-          <div className="d-flex">
-            <PhoneOutlined className="mr-2 mt-1" />
-            <div>
-              <p>Hà Nội: 1900.636833</p>
-              <p>TP.HCM: 1900.636032</p>
-            </div>
-          </div>
-          <div className="d-flex mt-3">
-            <DiffOutlined className="mr-2" />
-            <div>
-              <p> Mã số thuế: 0108852257</p>
-            </div>
-          </div>
-          <div className="d-flex mt-3">
-            <HomeOutlined className="mr-2 mt-1" />
-            <div>
-              <p>Office: 33 Ngõ 75 Trần Thái Tông, P. Dịch Vọng, Q. Cầu Giấy, TP. Hà Nội
-              </p>
-            </div>
-          </div>
-          <div className="d-flex mt-3">
-            <MailOutlined className="mr-2" />
-            <div>
-              <p>cskh@centbeauty.com</p>
-            </div>
-          </div>
-        </Col>
-        <Col xs={3}>
-          <p> Thứ 2 đến thứ 6: 8h00 - 21h00</p>
-          <p> Thứ 7, chủ nhật: 7h30 - 21h00</p>
-          <p>HOTLINE: 1800.28.30 (MIỄN PHÍ)</p>
-        </Col>
-        <Col xs={6}>
-          <p>Cơ sở 1: Số 6 - 8 ngõ 100 Trần Duy Hưng, Q. Cầu Giấy, Hà Nội</p>
-          <p>Cơ sở 2: Số 1 ngõ 18 Võ Văn Dũng, Q. Đống Đa, Hà Nội</p>
-          <p>Cơ sở 3: Số 55 Nguyễn Văn Huyên, Q. Cầu Giấy, Hà Nội</p>
-          <p>Cơ sở 4: Số 382/35 Nguyễn Thị Minh Khai, P.5, Q.3, TP.HCM</p>
-        </Col>
-      </Row>
-    </Container>
+    </div>
   )
 }

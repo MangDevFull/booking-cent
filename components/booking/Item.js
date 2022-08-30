@@ -15,7 +15,7 @@ const hanldeChoose = ()=>{
       <div>
         <Image
           // loader={myLoader}
-          src="/assets/images/no-image.jpeg"
+          src={data.avata_url ? data.avata_url :"/assets/images/no-image.jpeg"}
           alt="No image"
           width={500}
           height={500}

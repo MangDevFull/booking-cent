@@ -111,3 +111,31 @@ border: none;
 padding: 8px;
 width: 120px;
 }
+.text7{
+  font-style: normal;
+font-weight: 500;
+font-size: 20px;
+line-height: 25px;
+text-align: center;
+
+color: #D35B34;
+}
+.text8{
+  font-style: normal;
+font-weight: 200;
+font-size: 16px;
+line-height: 20px;
+text-align: center;
+
+color: #D35B34;
+}
+.text9{
+  font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 20px;
+text-align: center;
+
+color: #D35B34;
+
+}
