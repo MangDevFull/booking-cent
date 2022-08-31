@@ -1,17 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import { Row, Col, Container } from "react-bootstrap"
 import styles from "@/styles/booking.module.css"
-import 'antd/dist/antd.css';
+import dynamic from 'next/dynamic'
 import { CloseOutlined, ArrowLeftOutlined } from "@ant-design/icons"
 import { Select, Radio, Space, DatePicker, Tag, Tabs, message } from 'antd';
 const { Option } = Select;
 const { TabPane } = Tabs;
 import Api from "@/services/api"
 import timesEnum from "@/enums/times.enum";
-import Item from "@/components/booking/Item"
 import _ from "lodash"
 import Head from 'next/head'
+import { getSession, useSession } from "next-auth/react";
+const Item = dynamic(() => import('@/components/booking/Item'));
 export default function BookingPage({ data }) {
+  const { data: session } = useSession();
   const serviceRef5 = useRef(null)
   const serviceRef4 = useRef(null)
   const serviceRef1 = useRef(null)
@@ -47,7 +49,6 @@ export default function BookingPage({ data }) {
       setChooseIndex("5")
     }
   };
-  console.log(chooseIndex)
   useEffect(() => {
     const converted = services.map(x => {
       return x[1]

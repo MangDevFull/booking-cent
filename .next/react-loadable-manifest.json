@@ -1,1 +1,8 @@
-{}
+{
+  "booking/index.js -> @/components/booking/Item": {
+    "id": "booking/index.js -> @/components/booking/Item",
+    "files": [
+      "static/chunks/components_booking_Item_js.js"
+    ]
+  }
+}

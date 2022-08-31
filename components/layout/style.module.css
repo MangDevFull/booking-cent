@@ -8,6 +8,7 @@
   order: 0;
   flex-grow: 0;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .buttonLogin {

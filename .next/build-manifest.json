@@ -34,6 +34,12 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/booking.js"
+    ],
+    "/booking/_middleware": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "server/middleware-runtime.js",
+      "server/pages/booking/_middleware.js"
     ]
   },
   "ampFirstPages": []

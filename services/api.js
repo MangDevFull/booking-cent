@@ -13,7 +13,7 @@ const ApiClient = () => {
   instance.interceptors.request.use(async (request) => {
     const session = await getSession();
     if (session) {
-      request.headers.Authorization = `Bearer ${session.accessToken}`;
+      request.headers.Authorization = `Bearer ${session.token}`;
     }
     return request;
   });
