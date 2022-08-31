@@ -7,7 +7,6 @@ export default function Package({data,hanldeCheckPackage}){
   const onChange = () => {
     hanldeCheckPackage(data.id)
   };
-  console.log("data",data)
   return(
     <div className="d-flex mt-3 mb-4">
       <Checkbox onChange={onChange} checked={data.selected} className="mr-3 mt-4"></Checkbox>

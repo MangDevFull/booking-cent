@@ -110,7 +110,6 @@ export default function HeaderLayout() {
       hanldeLogin()
     }
   }
-  console.log("session", session)
   return (
     <>
       <Modal title={title} footer={null} visible={isModalVisible} onCancel={handleCancel}>

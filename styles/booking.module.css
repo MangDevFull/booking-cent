@@ -1,168 +1,320 @@
-.wrap{
+.wrap {
   border-radius: 8px 8px 0px 0px;
   background: #E98362;
 }
-.text1{
+
+.text1 {
   font-weight: 400;
-font-size: 20px;
-line-height: 25px;
-text-align: center;
-background-color: #E98362;
-color: #FFFFFF;
-margin-bottom: 0px;
-border-radius: 8px 8px 0px 0px;
+  font-size: 20px;
+  line-height: 25px;
+  text-align: center;
+  background-color: #E98362;
+  color: #FFFFFF;
+  margin-bottom: 0px;
+  border-radius: 8px 8px 0px 0px;
 }
-.text2{
-background-color: #E98362;
-color: #FFFFFF;
-margin-bottom: 0px;
-border-radius: 8px 8px 0px 0px;
-cursor: pointer;
+
+.text2 {
+  background-color: #E98362;
+  color: #FFFFFF;
+  margin-bottom: 0px;
+  border-radius: 8px 8px 0px 0px;
+  cursor: pointer;
 }
-.text3{
+
+.text3 {
   font-weight: 400;
-font-size: 20px;
-line-height: 25px;
-background-color: #E98362;
+  font-size: 20px;
+  line-height: 25px;
+  background-color: #E98362;
 }
-.text4{
+
+.text4 {
   font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 18px;
-color: #000000;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #000000;
 }
-.background{
-background: #F5F5F5;
+
+.background {
+  background: #F5F5F5;
 }
-.boxShawdow{
+
+.boxShawdow {
   box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
   border-radius: 8px 8px 0px 0px;
   border-radius: 8px;
 }
-.chooseLocation{
+
+.chooseLocation {
   background: #FFF6F0;
-border-radius: 8px;
+  border-radius: 8px;
 }
-.buttonAddService{
+
+.buttonAddService {
   background: #FFFFFF;
-border: 1px solid #D35B34;
-border-radius: 200px;
-color: #D35B34;
+  border: 1px solid #D35B34;
+  border-radius: 200px;
+  color: #D35B34;
 
 }
-.chooseHour{
+
+.chooseHour {
   background: #FFE9E2;
 }
-.textSubmit{
+
+.textSubmit {
   background: #D35B34;
-border-radius: 8px;
-color: white;
-border: none;
-font-size: 20px;
+  border-radius: 8px;
+  color: white;
+  border: none;
+  font-size: 20px;
 }
-.warpServices{
+
+.warpServices {
   height: 400px;
   overflow: scroll;
 }
-.boxShawdow2{
+
+.boxShawdow2 {
   box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
   border-radius: 8px 8px 0px 0px;
   border-radius: 8px;
 }
-.textItem{
-  font-weight: 400;
-font-size: 16px;
-line-height: 20px;
 
-color: #000000;
-}
-.textPrice{
+.textItem {
   font-weight: 400;
-font-size: 16px;
-line-height: 20px;
+  font-size: 12px;
+  line-height: 20px;
 
-color: #D35B34;
+  color: #000000;
 }
-.checkOut{
+
+.textPrice {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: #D35B34;
+}
+
+.divText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100px;
+}
+
+.checkOut {
   background: #FFF6F0;
-border-radius: 8px;
+  border-radius: 8px;
 }
-.text5{
+
+.text5 {
   font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 20px;
-color: #343434;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: #343434;
 }
-.text6{
+
+.text6 {
   font-style: normal;
-font-weight: 300;
-font-size: 14px;
-line-height: 20px;
-color: #343434;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 20px;
+  color: #343434;
 }
-.button2{
+
+.button2 {
   background: #D35B34;
-border-radius: 8px;
-color: white;
-font-size: 12px;
-border: none;
-padding: 8px;
-width: 120px;
+  border-radius: 8px;
+  color: white;
+  font-size: 12px;
+  border: none;
+  padding: 8px;
+  width: 120px;
 }
-.text7{
+
+.text7 {
   font-style: normal;
-font-weight: 500;
-font-size: 20px;
-line-height: 25px;
-text-align: center;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 25px;
+  text-align: center;
 
-color: #D35B34;
+  color: #D35B34;
 }
-.text8{
+
+.text8 {
   font-style: normal;
-font-weight: 200;
-font-size: 16px;
-line-height: 20px;
-text-align: center;
+  font-weight: 200;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
 
-color: #D35B34;
+  color: #D35B34;
 }
-.text9{
+
+.text9 {
   font-style: normal;
-font-weight: 500;
-font-size: 16px;
-line-height: 20px;
-text-align: center;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
 
-color: #D35B34;
+  color: #D35B34;
 
 }
-.package{
+
+.package {
   background: #FFF6F0;
-border: 1px dashed #D35B34;
-border-radius: 8px;
+  border: 1px dashed #D35B34;
+  border-radius: 8px;
 }
-.textPackage{
+
+.textPackage {
   font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 18px;
-/* identical to box height */
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  /* identical to box height */
 
 
-color: #343434;
-text-align: left;
+  color: #343434;
+  text-align: left;
 }
-.textPackage2{
+
+.textPackage2 {
   font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 18px;
-/* identical to box height */
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  /* identical to box height */
 
 
-color: #343434;
-text-align: right;
+  color: #343434;
+  text-align: right;
+}
+
+.textNav {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  text-transform: uppercase;
+  color: #000000;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.buttonLogin {
+  width: 120px;
+  height: 36px;
+
+  background: #D35B34;
+  border: 1px solid #FFDBCB;
+  border-radius: 80px;
+  color: white;
+}
+
+.inputSearch {
+  width: 16rem;
+  height: 36px;
+  box-sizing: border-box;
+  background: #FFFFFF;
+  border: 1px solid #FFD6D6;
+  border-radius: 4px
+}
+
+.textFooter {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 150%;
+  color: #000000;
+}
+
+.wrap {
+  border-radius: 80px;
+  background: white
+}
+
+.text1 {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 12px;
+  /* identical to box height */
+  color: white;
+
+}
+
+.textHeading {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 129%;
+  color: #FFFFFF;
+}
+
+.textLi {
+  font-weight: 400;
+  font-size: 14px;
+  /* or 24px */
+
+
+  color: #FFFFFF;
+}
+
+.inputNote {
+
+  background: #FFFFFF;
+  border: 1px solid #D6D6D6;
+  border-radius: 8px;
+}
+
+.text4 {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  /* identical to box height, or 24px */
+
+
+  color: #FFFFFF;
+}
+
+.text5 {
+  color: #000000;
+  font-size: 16px;
+}
+
+.inputPhone {
+  height: 48px;
+  border-radius: 4px;
+  border: 2px solid #a3a3a3;
+  color: #222;
+  width: 100%;
+}
+
+.buttonLogin2 {
+  width: 100%;
+  border-radius: 4px;
+  height: 48px;
+  font-size: 18px;
+  background-color: #D35B34;
+  color: white;
+  border: none;
+}
+
+.buttonCan {
+  border: 2px solid #000;
+  border-radius: 4px;
+  margin-right: 18px;
+  background: #fff;
+  color: #222;
+  width: 100%;
 }
