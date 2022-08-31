@@ -309,7 +309,10 @@
   color: white;
   border: none;
 }
-
+.textNote{
+  color: #D35B34;
+  cursor: pointer;
+}
 .buttonCan {
   border: 2px solid #000;
   border-radius: 4px;

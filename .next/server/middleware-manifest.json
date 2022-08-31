@@ -1,29 +1,6 @@
 {
-  "sortedMiddleware": [
-    "/booking"
-  ],
-  "clientInfo": [
-    [
-      "/booking",
-      false
-    ]
-  ],
-  "middleware": {
-    "/booking": {
-      "env": [
-        "JWT_SECRET",
-        "NEXTAUTH_URL",
-        "VERCEL",
-        "NEXTAUTH_SECRET"
-      ],
-      "files": [
-        "server/middleware-runtime.js",
-        "server/pages/booking/_middleware.js"
-      ],
-      "name": "pages/booking/_middleware",
-      "page": "/booking",
-      "regexp": "^/booking(?:(/.*)?)$"
-    }
-  },
+  "sortedMiddleware": [],
+  "clientInfo": [],
+  "middleware": {},
   "version": 1
 }

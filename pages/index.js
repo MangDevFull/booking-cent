@@ -7,7 +7,8 @@
 // import PartitionSlider from "@/components/PartitionSlider";
 // import MasterParallaxBanner from "@/components/MasterParallaxBanner";
 // import styles from "@/styles/homepage.module.css"
-
+import { useEffect } from "react";
+import {getStrapiURL,fetchAPI} from "../libs/api"
 export default function Home({
   // dealsOfTheDay,
   // dontMissTheseProducts,
@@ -16,6 +17,10 @@ export default function Home({
   // rightFeatureProducts,
   // top5Products,
 }) {
+  useEffect(async()=>{
+    const data = await fetchAPI("/bookings")
+    console.log("data",data)
+  })
   return (
     <>
      index

@@ -1,4 +1,24 @@
 export default [
-  "9h","9h30","10h","10h30","11h","11h30","12h","12h30","13h","13h30","14h","14h30","15h","15h30","16h","16h30","17h","17h30",
-  "18h","18h30","19h","19h30"
+  { value: "09:00:00", label: "9h" },
+  { value: "09:30:00", label: "9h30" },
+  { value: "10:00:00", label: "10h" },
+  { value: "10:30:00", label: "10h30" },
+  { value: "11:00:00", label: "11h" },
+  { value: "11:30:00", label: "11h30" },
+  { value: "12:00:00", label: "12h" },
+  { value: "12:30:00", label: "12h30" },
+  { value: "13:00:00", label: "13h" },
+  { value: "13:30:00", label: "13h30" },
+  { value: "14:00:00", label: "14h" },
+  { value: "14:30:00", label: "14h30" },
+  { value: "15:00:00", label: "15h" },
+  { value: "15:30:00", label: "15h30" },
+  { value: "16:00:00", label: "16h" },
+  { value: "16:30:00", label: "16h30" },
+  { value: "17:00:00", label: "17h" },
+  { value: "17:30:00", label: "17h30" },
+  { value: "18:00:00", label: "18h" },
+  { value: "18:30:00", label: "18h30" },
+  { value: "19:00:00", label: "19h" },
+  { value: "19:00:00", label: "19h30" }
 ]

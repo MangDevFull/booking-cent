@@ -14,6 +14,7 @@ import Head from 'next/head'
 import libphone from 'google-libphonenumber';
 import OtpInput from 'react-otp-input';
 import { getSession, useSession } from "next-auth/react";
+import { fetchAPI } from "../../libs/api"
 const Item = dynamic(() => import('@/components/booking/Item'));
 const Package = dynamic(() => import('@/components/booking/Package'));
 const { PhoneNumberFormat, PhoneNumberUtil } = libphone;
@@ -48,7 +49,8 @@ export default function BookingPage({ data }) {
   const [content, setContent] = useState("Số điện thoại của bạn là gì ạ?")
   const [otp, setOtp] = useState("")
   const [isDisable, setIsDisable] = useState(false)
-
+  const [isModalVisibleNote, setIsModalVisibleNote] = useState(false);
+  const [note, setNote] = useState("")
   const handleCancel = () => {
     setPhone("")
     setIsValidPhone(false)
@@ -225,26 +227,58 @@ export default function BookingPage({ data }) {
     services[index][1][filter].isCkecked = false
     setServices([...services])
   }
-  const hanldeSubmit = () => {
-    let mess = []
-    if ((selectServices.length === 0 && selectedPackages.length ===0)) {
-      mess.push("Bạn chưa chọn dịch vụ")
+  const hanldeSubmit = async () => {
+    try {
+      let mess = []
+      if ((selectServices.length === 0 && selectedPackages.length === 0)) {
+        mess.push("Bạn chưa chọn dịch vụ")
+      }
+      if (selectLocation == 0) {
+        mess.push("Bạn chưa chọn cơ sở")
+      }
+      if (chooseHour == "" || chooseDate == "") {
+        mess.push("Bạn chưa chọn thời gian")
+      }
+      if (mess.length > 0) {
+        mess.forEach(x => {
+          message.error(x)
+        })
+      } else {
+        const items = [...selectedPackages, ...selectServices]
+        const { user } = session
+        const payload = {
+          "customer_name": user.full_name,
+          "status": 1,
+          "date_book": new Date(`${chooseDate} ${chooseHour}`),
+          "store_id": selectLocation,
+          "note": note,
+          "customer_id": user.id,
+          "booking_items": JSON.stringify(items)
+        }
+        const data = await fetchAPI("/bookings", "", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ data: payload }),
+        })
+        if (data) {
+          // window.scrollTo(0, 0)
+          // setSuccessOrder(true)
+        }
+      }
+    } catch (error) {
+      alert("Có lỗi xảy ra")
     }
-    if (selectLocation == 0) {
-      mess.push("Bạn chưa chọn cơ sở")
-    }
-    if (chooseHour == "" || chooseDate == "") {
-      mess.push("Bạn chưa chọn thời gian")
-    }
-    if (mess.length > 0) {
-      mess.forEach(x => {
-        message.error(x)
-      })
-    } else {
-      
-      window.scrollTo(0, 0)
-      setSuccessOrder(true)
-    }
+  }
+  const hanldeCreateNote = () => {
+    setIsModalVisibleNote(true)
+  }
+  const handleCancelNote = () => {
+    setIsModalVisibleNote(false)
+  }
+  const hanldeNote = (e) => {
+    setNote(e.target.value)
   }
   return (
     <>
@@ -287,6 +321,9 @@ export default function BookingPage({ data }) {
         </Modal>
         :
         <Row className="m-1 mb-5">
+          <Modal title="Tạo ghi chú" visible={isModalVisibleNote} onOk={handleCancelNote} onCancel={handleCancelNote}>
+            <textarea rows={4} placeholder="Tạo ghi chú" onChange={hanldeNote} className="w-100" />
+          </Modal>
           <Col md={{ span: 4, offset: 4 }}>
             {/* <div className={`${styles.background} pl-3 pr-3 pt-5 pb-3`}> */}
             <div className={styles.boxShawdow} ref={serviceRef}>
@@ -446,14 +483,19 @@ export default function BookingPage({ data }) {
                                     return <Col>
                                       <Tag key={i} xs={3}
                                         style={{ width: "4rem", cursor: "pointer", background: `${chooseIndexHour == i ? "#FFE9E2" : "white"}` }} className={`mb-2 p-1 text-center `}
-                                        onClick={() => { hanldeChoseHour(x, i) }}
+                                        onClick={() => { hanldeChoseHour(x.value, i) }}
                                       >
-                                        {x}
+                                        {x.label}
                                       </Tag></Col>
                                   })}
                                 </Row>
                               </>
                               : ""}
+                          </div>
+                          <div>
+                            <p className={styles.textNote}
+                              onClick={hanldeCreateNote}
+                            >Tạo ghi chú</p>
                           </div>
                         </div>
                         <div className="d-flex justify-content-center">
