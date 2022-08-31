@@ -4,5 +4,11 @@
     "files": [
       "static/chunks/components_booking_Item_js.js"
     ]
+  },
+  "booking/index.js -> @/components/booking/Package": {
+    "id": "booking/index.js -> @/components/booking/Package",
+    "files": [
+      "static/chunks/components_booking_Package_js.js"
+    ]
   }
 }

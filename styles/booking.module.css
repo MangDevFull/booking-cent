@@ -139,3 +139,30 @@ text-align: center;
 color: #D35B34;
 
 }
+.package{
+  background: #FFF6F0;
+border: 1px dashed #D35B34;
+border-radius: 8px;
+}
+.textPackage{
+  font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 18px;
+/* identical to box height */
+
+
+color: #343434;
+text-align: left;
+}
+.textPackage2{
+  font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 18px;
+/* identical to box height */
+
+
+color: #343434;
+text-align: right;
+}

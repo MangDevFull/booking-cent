@@ -12,7 +12,9 @@ import _ from "lodash"
 import Head from 'next/head'
 import { getSession, useSession } from "next-auth/react";
 const Item = dynamic(() => import('@/components/booking/Item'));
+const Package = dynamic(() => import('@/components/booking/Package'));
 export default function BookingPage({ data }) {
+  console.log("data", data)
   const { data: session } = useSession();
   const serviceRef5 = useRef(null)
   const serviceRef4 = useRef(null)
@@ -34,6 +36,22 @@ export default function BookingPage({ data }) {
   const [total, setTotal] = useState([])
   const [successOrder, setSuccessOrder] = useState(false)
   const [chooseIndex, setChooseIndex] = useState("1")
+  const [packages, setPackages] = useState(data.data.package[0].map(x => {
+    return {
+      ...x,
+      selected: false
+    }
+  }))
+  const [selectedPackages, setSelectedPackages] = useState([])
+  useEffect(() => {
+    const findP = packages.filter(x=>x.selected)
+    setSelectedPackages(findP)
+  }, [packages])
+  const hanldeCheckPackage = (id) => {
+    const findIndex = packages.findIndex(x => x.id == id)
+    packages[findIndex].selected = !packages[findIndex].selected
+    setPackages([...packages])
+  }
   const handleScroll = event => {
     const posision = event.currentTarget.scrollTop
     if (posision < 1677) {
@@ -224,8 +242,15 @@ export default function BookingPage({ data }) {
                   <div className="w-100">
                     <div className="steps-card" style={{ boxShadow: "none", paddingLeft: "0x", marginTop: "0px", borderRadius: "8px" }}>
                       <div className="step-list">
-                        <div className={`step ${selectServices.length > 0 ? "step-completed" : "step-incomplete"}`}>
+                        <div className={`step ${(selectServices.length > 0 || selectedPackages.length >0) ? "step-completed" : "step-incomplete"}`}>
                           <h1 className={`${selectServices.length > 0 ? "step-heading" : "step-heading2"}`}> {"1. Chọn dịch vụ"} </h1>
+                          <div>
+                            {
+                              packages.map((x => {
+                                return <Package key={x.id} data={x} hanldeCheckPackage={hanldeCheckPackage} />
+                              }))
+                            }
+                          </div>
                           {selectServices.length > 0 &&
                             <Container className={`${styles.checkOut} mb-1 m-1 pt-2 pb-2`}>
                               {selectServices.map(x => {
@@ -249,7 +274,7 @@ export default function BookingPage({ data }) {
                               </div>
                             </Container>
                           }
-                          <div className="d-flex justify-content-center mt-2">
+                          <div className="d-flex justify-content-center mt-3">
                             <button className={`${styles.buttonAddService} p-2 w-100`}
                               onClick={chooseServiceHanlde}
                             >+ Thêm dịch vụ khác</button>
@@ -390,7 +415,7 @@ export default function BookingPage({ data }) {
 }
 export async function getServerSideProps() {
   // Fetch data from external API
-  const res = await Api.get(`/api/public/categories`)
+  const res = await Api.get(`/api/public/categories?id=${16408}`)
   const { data } = res
 
   // Pass data to the page via props
