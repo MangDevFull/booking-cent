@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Row, Col, Navbar, Nav, Container } from "react-bootstrap"
 import Link from 'next/link'
 import styles from "./style.module.css"
-import { SearchOutlined } from "@ant-design/icons"
+import { SearchOutlined,LogoutOutlined } from "@ant-design/icons"
 import { useRouter } from 'next/router'
 import { message, Modal } from "antd"
 import OtpInput from 'react-otp-input';
@@ -226,7 +226,11 @@ export default function HeaderLayout() {
                             callbackUrl: `${window.location.origin}/`,
                           })
                         }
-                      >Đăng xuất</Dropdown.Item>
+                      >
+                        <div className="d-flex">
+                        <LogoutOutlined className="mr-1 mt-1" /><span>Đăng xuất</span>
+                        </div>
+                      </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                     :
