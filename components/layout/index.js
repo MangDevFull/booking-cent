@@ -9,6 +9,14 @@ export default function Layout({ children }) {
       setIsMobile(true)
     }
   }, [])
+  const updateWidthAndHeight = () => {
+    setWidth(window.innerWidth);
+    setHeight(window.innerHeight);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", updateWidthAndHeight);
+    return () => window.removeEventListener("resize", updateWidthAndHeight);
+  });
   return (
     <div style={{ background: "rgb(248,249,250)" }} className="pt-3">
       {!isMobile && <Header />}

@@ -111,6 +111,7 @@ export default function HeaderLayout() {
       hanldeLogin()
     }
   }
+  
   return (
     <>
       <Modal title={title} footer={null} visible={isModalVisible} onCancel={handleCancel}>
@@ -130,6 +131,7 @@ export default function HeaderLayout() {
                 value={otp}
                 onChange={hanldeChangeOtp}
                 numInputs={6}
+                isInputNum={true}
                 shouldAutoFocus={true}
                 inputStyle={{ maxWidth: "4rem", borderRadius: "4px", border: "2px solid #a3a3a3", maxHeight: "4rem", marginRight: "1rem", minHeight: "2.4rem", minWidth: "2.4rem" }}
               />
@@ -212,7 +214,7 @@ export default function HeaderLayout() {
                 <div className="d-flex ml-0">
                   <span className={`${styles.text1} mr-2`} style={{ marginTop: "0.7rem" }}>Tìm cơ sở gần nhất</span>
                   {session ? <Dropdown style={{ maxWidth: "300px" }}>
-                    <Dropdown.Toggle variant="warning" id="dropdown-basic">
+                    <Dropdown.Toggle variant="warning" id="dropdown-basic" style={{ backgroundColor: "#D35B34", border: "none", color: "white" }}>
                       {session.user.mobile}
                     </Dropdown.Toggle>
 

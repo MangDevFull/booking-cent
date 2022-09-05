@@ -53,23 +53,23 @@ export default function Footer() {
               <Row>
                 <span className={styles.text4}>Công ty Cổ Phần Dịch Vụ Cent Beauty</span>
                 <Col xs={12} className="d-flex mt-3">
-                  <HomeOutlined style={{ color: "white" }} className="mr-2 mt-1" />
+                  <HomeOutlined style={{ color: "white" }} className="mr-2" />
                   <p className={styles.textLi}>Địa chỉ: Số 8, ngõ 100 Trần Duy Hưng, Trung Hoà, Cầu Giấy, Hà Nội</p>
                 </Col>
                 <Col xs={12} className="d-flex">
-                  <BankOutlined style={{ color: "white" }} className="mr-2 mt-1" />
+                  <BankOutlined style={{ color: "white" }} className="mr-2" />
                   <p className={styles.textLi}>Office: 33 Ngõ 75 Trần Thái Tông, Dịch Vọng, Cầu Giấy, Hà Nội</p>
                 </Col>
                 <Col xs={12} className="d-flex">
-                  <PhoneOutlined style={{ color: "white" }} className="mr-2 mt-1" />
+                  <PhoneOutlined style={{ color: "white" }} className="mr-2" />
                   <p className={styles.textLi}>Hotline: 1900.636833</p>
                 </Col>
                 <Col xs={12} className="d-flex">
-                  <MailOutlined style={{ color: "white" }} className="mr-2 mt-1" />
+                  <MailOutlined style={{ color: "white" }} className="mr-2" />
                   <p className={styles.textLi}>Email: cskh@centbeauty.com</p>
                 </Col>
                 <Col xs={12} className="d-flex">
-                  <DiffOutlined style={{ color: "white" }} className="mr-2 mt-1" />
+                  <DiffOutlined style={{ color: "white" }} className="mr-2" />
                   <p className={styles.textLi}>Mã số thuế: 0108852257</p>
                 </Col>
               </Row>

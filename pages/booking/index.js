@@ -3,7 +3,7 @@ import { Row, Col, Container } from "react-bootstrap"
 import styles from "@/styles/booking.module.css"
 import dynamic from 'next/dynamic'
 import { CloseOutlined, ArrowLeftOutlined } from "@ant-design/icons"
-import { Select, Radio, Space, DatePicker, Tag, Tabs, message, Modal } from 'antd';
+import { Select, Radio, Space, DatePicker, Tag, Tabs, message, Modal, Button } from 'antd';
 const { Option } = Select;
 const { TabPane } = Tabs;
 import Api from "@/services/api"
@@ -60,7 +60,7 @@ export default function BookingPage({ data }) {
     }
   }))
   const [selectedPackages, setSelectedPackages] = useState([])
-  console.log("chooseIndex",chooseIndex)
+  const [isDisableSubmit, setIsDisableSubmit] = useState(false)
   const handleCancel = () => {
     setPhone("")
     setIsValidPhone(false)
@@ -139,6 +139,7 @@ export default function BookingPage({ data }) {
     const findP = packages.filter(x => x.selected)
     setSelectedPackages(findP)
   }, [packages])
+
   const hanldeCheckPackage = (id) => {
     const findIndex = packages.findIndex(x => x.id == id)
     packages[findIndex].selected = !packages[findIndex].selected
@@ -237,20 +238,25 @@ export default function BookingPage({ data }) {
   }
   const hanldeSubmit = async () => {
     try {
+      setIsDisableSubmit(true)
       let mess = []
       if ((selectServices.length === 0 && selectedPackages.length === 0)) {
         mess.push("Bạn chưa chọn dịch vụ")
+        setIsDisableSubmit(false)
       }
       if (selectLocation == 0) {
         mess.push("Bạn chưa chọn cơ sở")
+        setIsDisableSubmit(false)
       }
       if (chooseHour == "" || chooseDate == "") {
         mess.push("Bạn chưa chọn thời gian")
+        setIsDisableSubmit(false)
       }
       if (mess.length > 0) {
         mess.forEach(x => {
           message.error(x)
         })
+        setIsDisableSubmit(false)
       } else {
         const items = [...selectedPackages, ...selectServices]
         const { user } = session
@@ -275,10 +281,12 @@ export default function BookingPage({ data }) {
         if (data) {
           window.scrollTo(0, 0)
           setSuccessOrder(true)
+          setIsDisableSubmit(false)
         }
       }
     } catch (error) {
-      alert("Có lỗi xảy ra")
+      message.error("Có lỗi xảy ra")
+      setIsDisableSubmit(false)
     }
   }
   const hanldeCreateNote = () => {
@@ -290,7 +298,7 @@ export default function BookingPage({ data }) {
   const hanldeNote = (e) => {
     setNote(e.target.value)
   }
-  const hanldeReload = ()=>{
+  const hanldeReload = () => {
     Router.reload(window.location.pathname)
   }
   return (
@@ -299,39 +307,44 @@ export default function BookingPage({ data }) {
         <title>Đặt lịch</title>
       </Head>
       {!session ?
-        <Modal title={title} footer={null} visible={session ? isModalVisible : true} onCancel={handleCancel}>
-          <p className={`${styles.text5} text-center`}>{content}</p>
-          <Row>
-            {!isValidPhone ? <Col xs={12}>
-              <form>
-                <input className={styles.inputPhone} onChange={hanldePhone} placeholder=" Nhập số diện thoại của bạn" />
-                <button type="submit" className={`${styles.buttonLogin2} mt-2 mb-2`}
-                  onClick={hanldeCheckPhone}
-                  disabled={isDisable}
-                >Tiếp tục</button>
-              </form>
-            </Col> : <Col xs={12}>
-              <div className="d-flex justify-content-center">
-                <OtpInput
-                  value={otp}
-                  onChange={hanldeChangeOtp}
-                  numInputs={6}
-                  shouldAutoFocus={true}
-                  inputStyle={{ maxWidth: "4rem", borderRadius: "4px", border: "2px solid #a3a3a3", maxHeight: "4rem", marginRight: "1rem", minHeight: "2.4rem", minWidth: "2.4rem" }}
-                />
-              </div>
+        <Row>
+          <Col sm={12} xs={12}>
+            <Modal title={title} footer={null} visible={session ? isModalVisible : true} onCancel={handleCancel}>
+              <p className={`${styles.text5} text-center`}>{content}</p>
+              <Row>
+                {!isValidPhone ? <Col xs={12} lg={12} sm={12}>
+                  <form>
+                    <input className={styles.inputPhone} onChange={hanldePhone} placeholder=" Nhập số diện thoại của bạn" />
+                    <button type="submit" className={`${styles.buttonLogin2} mt-2 mb-2`}
+                      onClick={hanldeCheckPhone}
+                      disabled={isDisable}
+                    >Tiếp tục</button>
+                  </form>
+                </Col> : <Col xs={12} lg={12} sm={12}>
+                  <div className="d-flex justify-content-center">
+                    <OtpInput
+                      value={otp}
+                      onChange={hanldeChangeOtp}
+                      numInputs={6}
+                      isInputNum={true}
+                      shouldAutoFocus={true}
+                      inputStyle={{ maxWidth: "4rem", borderRadius: "4px", border: "2px solid #a3a3a3", maxHeight: "4rem", marginRight: "1rem", minHeight: "2.4rem", minWidth: "2.4rem" }}
+                    />
+                  </div>
 
-              <div className="d-flex mt-4">
-                <button className={styles.buttonCan}
-                  onClick={cancelOtp}
-                >Quay lại</button>
-                <button className={styles.buttonLogin2}
-                  onClick={hnaldeCheckOtp}
-                >Tiếp tục</button>
-              </div>
-            </Col>}
-          </Row>
-        </Modal>
+                  <div className="d-flex mt-4">
+                    <button className={styles.buttonCan}
+                      onClick={cancelOtp}
+                    >Quay lại</button>
+                    <button className={styles.buttonLogin2}
+                      onClick={hnaldeCheckOtp}
+                    >Tiếp tục</button>
+                  </div>
+                </Col>}
+              </Row>
+            </Modal>
+          </Col>
+        </Row>
         :
         <Row className="m-1">
           <Modal title="Tạo ghi chú" visible={isModalVisibleNote} onOk={handleCancelNote} onCancel={handleCancelNote}>
@@ -350,7 +363,7 @@ export default function BookingPage({ data }) {
                   <>
                     <div className={`pl-5 pr-5 pb-5 mb-5 ${styles.checkOut}`}>
                       <div className={` p-3`}>
-                        <Col lg={12} sm={12} className="mt-5 pt-5 pl-5 pr-5">
+                        <Col lg={12} sm={12} xs={12} className="mt-5 pt-5 pl-5 pr-5">
                           <p className={styles.text7}>Cảm ơn bạn đã đặt lịch</p>
                           <p className={styles.text8}>Vui lòng chờ Cent Beauty xác nhận trong giây lát</p>
                         </Col>
@@ -427,8 +440,8 @@ export default function BookingPage({ data }) {
                         </Row>
                       </div>
                       <div className="d-flex justify-content-center p-2">
-                          <button className={styles.button2} onClick={hanldeReload}>Đặt lịch tiếp</button>
-                        </div>
+                        <button className={styles.button2} onClick={hanldeReload}>Đặt lịch tiếp</button>
+                      </div>
                     </div>
                   </>
                   :
@@ -472,7 +485,7 @@ export default function BookingPage({ data }) {
                               <div className="d-flex justify-content-center mt-3">
                                 <button className={`${styles.buttonAddService} p-2 w-100`}
                                   onClick={chooseServiceHanlde}
-                                >+ Thêm dịch vụ khác</button>
+                                >+ {(selectServices.length > 0 || selectedPackages.length > 0) ? "Thêm dịch vụ khác" : "Chọn dịch vụ cần đặt lịch"}</button>
                               </div>
                             </div>
                             <div className={`pb-3 step ${choosedLocation ? "step-completed" : "step-incomplete"}`}>
@@ -516,7 +529,7 @@ export default function BookingPage({ data }) {
                               {chooseDate.length > 0 ?
                                 <>
                                   <p className={styles.text4}>Chọn khung giờ (từ 9h30 sáng đến 19h30)</p>
-                                  <Row className="mt-3">
+                                  <Row>
                                     {timesEnum.map((x, i) => {
                                       return <Col key={i}>
                                         <Tag key={i} xs={3}
@@ -539,6 +552,7 @@ export default function BookingPage({ data }) {
                           <div className="d-flex justify-content-center">
                             <button className={`${styles.textSubmit} pt-1 pb-1 pl-4 pr-4`}
                               onClick={hanldeSubmit}
+                              disabled={isDisableSubmit}
                             >
                               Đặt lịch
                             </button>
@@ -591,7 +605,7 @@ export default function BookingPage({ data }) {
                                 {x[0] == 5 && <div ref={serviceRef5}></div>}
                                 {x[1].map(y => {
                                   return (
-                                    <Col key={y.id} xs={6} className="mb-3">
+                                    <Col key={y.id} xs={6} lg={6} sm={6} className="mb-3">
                                       <Item data={y} parent={i} hanldeSelectService={hanldeSelectService} />
                                     </Col>
                                   )
@@ -615,11 +629,19 @@ export default function BookingPage({ data }) {
   )
 }
 export async function getServerSideProps(ctx) {
-  // Fetch data from external API
-  const session = await getSession(ctx);
-  const res = await Api.get(`/api/public/categories?id=${session?.user.id || ""}`)
-  const { data } = res
-  // Pass data to the page via props
-  return { props: { data: data } }
+  try {
+    // Fetch data from external API
+    const session = await getSession(ctx);
+    const res = await Api.get(`/api/public/categories?id=${session?.user.id || ""}`)
+    const { data } = res
+    if (data.code == 200) {
+      // Pass data to the page via props
+      return { props: { data: data } }
+    } else {
+      throw new Error('Internal Server Error');
+    }
+  } catch (error) {
+    throw new Error('Internal Server Error');
+  }
 
 }
