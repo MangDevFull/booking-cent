@@ -110,6 +110,7 @@ export default function HeaderLayout() {
       hanldeLogin()
     }
   }
+  console.log("router.pathname ",router.pathname )
   return (
     <>
       <Modal title={title} footer={null} visible={isModalVisible} onCancel={handleCancel}>
@@ -161,7 +162,7 @@ export default function HeaderLayout() {
                 >
                   <Link href={`./`}>
                     <Nav className={`mr-3`}>
-                      <a className={`${styles.textNav}`}>Trang chủ</a>
+                      <a className={`${styles.textNav} ${router.pathname ==="/" ? styles.selectedNav : ""}`}>Trang chủ</a>
                     </Nav>
                   </Link>
                   <Link href={'./'}>
@@ -170,7 +171,7 @@ export default function HeaderLayout() {
                     </Nav>
                   </Link>
                     <Nav className={` mr-3`} onClick={hanldeClickBooking}>
-                      <a className={`${styles.textNav}`}>Đặt lịch</a>
+                      <a className={`${styles.textNav} ${router.pathname ==="/booking" ? styles.selectedNav : ""}`}>Đặt lịch</a>
                     </Nav>
                   <Link href={`./`}>
                     <Nav className={` mr-3`}>

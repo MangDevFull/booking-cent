@@ -14,7 +14,6 @@ export default function Item({ data, parent, hanldeSelectService }) {
     <div className={`${styles.boxShawdow2} h-100`}>
       <div>
         <Image
-          // loader={myLoader}
           src={data.avata_url ? data.avata_url : "/assets/images/no-image.jpeg"}
           alt="No image"
           width={500}

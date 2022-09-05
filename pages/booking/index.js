@@ -15,6 +15,7 @@ import libphone from 'google-libphonenumber';
 import OtpInput from 'react-otp-input';
 import { getSession, useSession } from "next-auth/react";
 import { fetchAPI } from "../../libs/api"
+import Image from 'next/image'
 const Item = dynamic(() => import('@/components/booking/Item'));
 const Package = dynamic(() => import('@/components/booking/Package'));
 const { PhoneNumberFormat, PhoneNumberUtil } = libphone;
@@ -51,6 +52,13 @@ export default function BookingPage({ data }) {
   const [isDisable, setIsDisable] = useState(false)
   const [isModalVisibleNote, setIsModalVisibleNote] = useState(false);
   const [note, setNote] = useState("")
+  const [packages, setPackages] = useState(data.data.package[0].map(x => {
+    return {
+      ...x,
+      selected: false
+    }
+  }))
+  const [selectedPackages, setSelectedPackages] = useState([])
   const handleCancel = () => {
     setPhone("")
     setIsValidPhone(false)
@@ -78,6 +86,7 @@ export default function BookingPage({ data }) {
             setIsValidPhone(true)
             setIsDisable(false)
           } else {
+            console.log("test")
             message.error("Số điện thoại không hợp lệ")
             setIsDisable(false)
           }
@@ -124,13 +133,6 @@ export default function BookingPage({ data }) {
     }
   }
 
-  const [packages, setPackages] = useState(data.data.package[0].map(x => {
-    return {
-      ...x,
-      selected: false
-    }
-  }))
-  const [selectedPackages, setSelectedPackages] = useState([])
   useEffect(() => {
     const findP = packages.filter(x => x.selected)
     setSelectedPackages(findP)
@@ -175,14 +177,18 @@ export default function BookingPage({ data }) {
   }
   const cancelChooseLocation = () => {
     setChoosedLocation(false)
+    setSelectLocation(0)
   }
-  useEffect(async () => {
+  useEffect(() => {
+    fetchLocation()
+  }, [location])
+  const fetchLocation = async () => {
     const res = await Api.get(`/api/public/stores?name=${location}`)
     const { data } = res
     if (data.code == 200) {
       setStores(data.data)
     }
-  }, [location])
+  }
   const chooseServiceHanlde = async () => {
     setChooseService(true)
   }
@@ -263,8 +269,8 @@ export default function BookingPage({ data }) {
           body: JSON.stringify({ data: payload }),
         })
         if (data) {
-          // window.scrollTo(0, 0)
-          // setSuccessOrder(true)
+          window.scrollTo(0, 0)
+          setSuccessOrder(true)
         }
       }
     } catch (error) {
@@ -320,267 +326,295 @@ export default function BookingPage({ data }) {
           </Row>
         </Modal>
         :
-        <Row className="m-1 mb-5">
+        <Row className="m-1">
           <Modal title="Tạo ghi chú" visible={isModalVisibleNote} onOk={handleCancelNote} onCancel={handleCancelNote}>
             <textarea rows={4} placeholder="Tạo ghi chú" onChange={hanldeNote} className="w-100" />
           </Modal>
           <Col md={{ span: 4, offset: 4 }}>
-            {/* <div className={`${styles.background} pl-3 pr-3 pt-5 pb-3`}> */}
-            <div className={styles.boxShawdow} ref={serviceRef}>
-              {successOrder ?
-                <>
-                  <Row>
-                    <Col lg={12} sm={12} className="mt-5 pt-5 pl-5 pr-5">
-                      <p className={styles.text7}>Cảm ơn bạn đã đặt lịch</p>
-                      <p className={styles.text8}>Vui lòng chờ Cent Beauty xác nhận trong giây lát</p>
-                      <hr></hr>
-                    </Col>
+            <div className={`${styles.background} pl-3 pt-3 pr-3 pb-3`}>
+              <Image
+                src={'/assets/images/booking_phone.png'}
+                alt="Picture of the author"
+                width={460}
+                height={62}
+              />
+              <div className={styles.boxShawdow} ref={serviceRef}>
+                {successOrder ?
+                  <>
+                    <Row>
+                      <Col lg={12} sm={12} className="mt-5 pt-5 pl-5 pr-5">
+                        <p className={styles.text7}>Cảm ơn bạn đã đặt lịch</p>
+                        <p className={styles.text8}>Vui lòng chờ Cent Beauty xác nhận trong giây lát</p>
+                        <hr></hr>
+                      </Col>
 
-                  </Row>
-                  <Row className="mt-4">
-                    <p className={styles.text9}>Thông tin chi tiết</p>
-                  </Row>
-                  <Row className="pl-5 pr-5 pb-5 mb-5">
-                    <div className={`${styles.checkOut} p-3`}>
-                      <Row>
-                        <Col lg={3}>
-                          Dịch vụ:
-                        </Col>
-                        <Col lg={9}>
-                          <ul className="pl-0">
-                            {selectServices.map((x, i) => {
-                              return <li key={x.id}>{`${i + 1}. ${x.product_name}`}</li>
-                            })}
-                          </ul>
-                        </Col>
-                      </Row>
-                      <hr />
-                      <Row>
-                        <Col lg={3}>
-                          Cơ sở:
-                        </Col>
-                        <Col lg={9}>
-                          {nameLoctionSelect}
-                        </Col>
-                      </Row>
-                      <hr />
-                      <Row>
-                        <Col lg={3}>
-                          Tổng tiền:
-                        </Col>
-                        <Col lg={9}>
-                          {convertCurrency(total)}
-                        </Col>
-                      </Row>
-                      <hr />
-                      <Row>
-                        <Col lg={3}>
-                          Thời gian
-                        </Col>
-                        <Col lg={9}>
-                          {`${chooseHour} ${chooseDate}`}
-                        </Col>
-                      </Row>
-                      <hr />
-                      <Row>
-                        <Col lg={3}>
-                          Trạng thái
-                        </Col>
-                        <Col lg={9}>
-                          Chờ xác nhận
-                        </Col>
-                      </Row>
-                    </div>
-                  </Row>
-                </>
-                :
-                <>
-                  {!chooseService ? <>
-                    <p className={`${styles.text1} p-3`}>Đặt lịch 3 bước</p>
-                    <div className="w-100">
-                      <div className="steps-card" style={{ boxShadow: "none", paddingLeft: "0x", marginTop: "0px", borderRadius: "8px" }}>
-                        <div className="step-list">
-                          <div className={`step ${(selectServices.length > 0 || selectedPackages.length > 0) ? "step-completed" : "step-incomplete"}`}>
-                            <h1 className={`${selectServices.length > 0 ? "step-heading" : "step-heading2"}`}> {"1. Chọn dịch vụ"} </h1>
-                            <div>
-                              {
-                                packages.map((x => {
-                                  return <Package key={x.id} data={x} hanldeCheckPackage={hanldeCheckPackage} />
-                                }))
+                    </Row>
+                    <Row className="mt-4">
+                      <p className={styles.text9}>Thông tin chi tiết</p>
+                    </Row>
+                    <Row className="pl-5 pr-5 pb-5 mb-5">
+                      <div className={`${styles.checkOut} p-3`}>
+                        {selectedPackages.length > 0 &&
+                          <>
+                            <Row>
+                              <Col lg={3}>
+                                Thẻ liệu trình:
+                              </Col>
+                              <Col lg={9}>
+                                <ul className="pl-0">
+                                  {selectedPackages.map((x, i) => {
+                                    return <li key={x.id}>{`${i + 1}. ${x.product_name}`}</li>
+                                  })}
+                                </ul>
+                              </Col>
+                            </Row>
+                            <hr />
+                          </>
+                        }
+                        {selectServices.length > 0 &&
+                          <>
+                            <Row>
+                              <Col lg={3}>
+                                Dịch vụ:
+                              </Col>
+                              <Col lg={9}>
+                                <ul className="pl-0">
+                                  {selectServices.map((x, i) => {
+                                    return <li key={x.id}>{`${i + 1}. ${x.product_name}`}</li>
+                                  })}
+                                </ul>
+                              </Col>
+                            </Row>
+                            <hr />
+                          </>
+                        }
+                        <Row>
+                          <Col lg={3}>
+                            Cơ sở:
+                          </Col>
+                          <Col lg={9}>
+                            {nameLoctionSelect}
+                          </Col>
+                        </Row>
+                        <hr />
+                        <Row>
+                          <Col lg={3}>
+                            Tổng tiền:
+                          </Col>
+                          <Col lg={9}>
+                            {convertCurrency(total)}
+                          </Col>
+                        </Row>
+                        <hr />
+                        <Row>
+                          <Col lg={3}>
+                            Thời gian
+                          </Col>
+                          <Col lg={9}>
+                            {`${chooseHour} ${chooseDate}`}
+                          </Col>
+                        </Row>
+                        <hr />
+                        <Row>
+                          <Col lg={3}>
+                            Trạng thái
+                          </Col>
+                          <Col lg={9}>
+                            Chờ xác nhận
+                          </Col>
+                        </Row>
+                      </div>
+                    </Row>
+                  </>
+                  :
+                  <>
+                    {!chooseService ? <>
+                      <p className={`${styles.text1} p-3`}>Đặt lịch 3 bước</p>
+                      <div className="w-100">
+                        <div className="steps-card" style={{ boxShadow: "none", paddingLeft: "0x", marginTop: "0px" ,borderRadius:"0px 0px 8px 8px" }}>
+                          <div className="step-list">
+                            <div className={`pb-3 step ${(selectServices.length > 0 || selectedPackages.length > 0) ? "step-completed" : "step-incomplete"}`}>
+                              <h1 className={`${selectServices.length > 0 ? "step-heading" : "step-heading2"}`}> {"1. Chọn dịch vụ"} </h1>
+                              <div>
+                                {
+                                  packages.map((x => {
+                                    return <Package key={x.id} data={x} hanldeCheckPackage={hanldeCheckPackage} />
+                                  }))
+                                }
+                              </div>
+                              {selectServices.length > 0 &&
+                                <Container className={`${styles.checkOut} mb-1 m-1 pt-2 pb-2`}>
+                                  {selectServices.map(x => {
+                                    return (
+                                      <>
+                                        <div className="d-flex justify-content-between pb-0">
+                                          <p className={styles.text6}>{x.product_name}</p>
+                                          <div className="d-flex">
+                                            <p className={styles.text6}>{convertCurrency(x.price)}</p>
+                                            <CloseOutlined style={{ color: "red" }} className="mt-1 ml-1" onClick={() => { cancleItem(x) }} />
+                                          </div>
+                                        </div>
+                                        <hr></hr>
+                                      </>
+                                    )
+                                  })}
+                                  <div className="d-flex justify-content-between">
+                                    <p className={styles.text5}>Tổng: </p>
+                                    <p className={styles.text5}>{convertCurrency(total)}</p>
+                                  </div>
+                                </Container>
+                              }
+                              <div className="d-flex justify-content-center mt-3">
+                                <button className={`${styles.buttonAddService} p-2 w-100`}
+                                  onClick={chooseServiceHanlde}
+                                >+ Thêm dịch vụ khác</button>
+                              </div>
+                            </div>
+                            <div className={`pb-3 step ${choosedLocation ? "step-completed" : "step-incomplete"}`}>
+                              <h1 className={`${choosedLocation ? "step-heading" : "step-heading2"}`}> {"2. Chọn chi nhánh"} </h1>
+                              {choosedLocation ?
+                                <div className={`${styles.chooseLocation} p-3 d-flex justify-content-between`}>
+                                  <span>{nameLoctionSelect}</span>
+                                  <CloseOutlined onClick={cancelChooseLocation} className="mt-1" />
+                                </div>
+                                :
+                                <>
+                                  <Select
+                                    showSearch
+                                    placeholder="Chọn chi nhánh"
+                                    optionFilterProp="children"
+                                    onChange={onChange}
+                                    className="w-100"
+                                    defaultValue={"Hà Nội"}
+                                    filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
+                                  >
+                                    <Option value="Hà Nội">Hà Nội</Option>
+                                    <Option value="TP Hồ Chí Minh">TP Hồ Chí Minh</Option>
+                                  </Select>
+
+                                  <Radio.Group onChange={onChaneLocation} value={selectLocation} className="mt-2 mb-3">
+                                    <Space direction="vertical">
+                                      {stores.map(x => {
+                                        return <Radio key={x.id} value={x.id}>{x.name_store}</Radio>
+                                      })}
+                                    </Space>
+                                  </Radio.Group>
+
+                                </>
                               }
                             </div>
-                            {selectServices.length > 0 &&
-                              <Container className={`${styles.checkOut} mb-1 m-1 pt-2 pb-2`}>
-                                {selectServices.map(x => {
+                            <div className={`step ${chooseHour === "" ? "step-incomplete-last" : "step-completed-last"}`}>
+                              <h1 className={`${chooseHour === "" ? "step-heading2" : "step-heading"}`}> {"3. Chọn thời gian"} </h1>
+                              <div className="mb-3">
+                                <DatePicker onChange={onChangeDate} className="w-100" placeholder="Chọn thời gian" />
+                              </div>
+                              {chooseDate.length > 0 ?
+                                <>
+                                  <p className={styles.text4}>Chọn khung giờ (từ 9h30 sáng đến 19h30)</p>
+                                  <Row className="mt-3">
+                                    {timesEnum.map((x, i) => {
+                                      return <Col key={i}>
+                                        <Tag key={i} xs={3}
+                                          style={{ width: "4rem", cursor: "pointer", background: `${chooseIndexHour == i ? "#FFE9E2" : "white"}` }} className={`mb-2 p-1 text-center `}
+                                          onClick={() => { hanldeChoseHour(x.value, i) }}
+                                        >
+                                          {x.label}
+                                        </Tag></Col>
+                                    })}
+                                  </Row>
+                                </>
+                                : ""}
+                            </div>
+                            <div>
+                              <p className={styles.textNote}
+                                onClick={hanldeCreateNote}
+                              >Tạo ghi chú</p>
+                            </div>
+                          </div>
+                          <div className="d-flex justify-content-center">
+                            <button className={`${styles.textSubmit} pt-1 pb-1 pl-4 pr-4`}
+                              onClick={hanldeSubmit}
+                            >
+                              Đặt lịch
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </> : <>
+                      <div className={`${styles.text2} p-3 d-flex`} onClick={hanldeBack}>
+                        <ArrowLeftOutlined className="mt-2 mr-1" />
+                        <span className={`${styles.text3}`}>Quay lại</span>
+                      </div>
+                      <div style={{ background: "white", borderRadius: "8px" }} className="p-2 w-100" >
+                        <div className="d-flex justify-content-center">
+                          <Tabs activeKey={chooseIndex} onChange={onChangeTabs} className="w-100 text-center" tabBarStyle={{ fontSize: "8px" }}>
+                            {categories.length > 0 && categories.map(x => {
+                              return <TabPane tab={x.name} key={x.id}>
+                              </TabPane>
+                            })}
+                          </Tabs>
+                        </div>
+                        {selectServices.length > 0 &&
+                          <Container className={`${styles.checkOut} mb-1 m-1 pt-2 pb-2`}>
+                            {selectServices.map(x => {
+                              return (
+                                <>
+                                  <div className="d-flex justify-content-between pb-0">
+                                    <p className={styles.text6}>{x.product_name}</p>
+                                    <div className="d-flex">
+                                      <p className={styles.text6}>{convertCurrency(x.price)}</p>
+                                      <CloseOutlined style={{ color: "red" }} className="mt-1 ml-1" onClick={() => { cancleItem(x) }} />
+                                    </div>
+                                  </div>
+                                  <hr></hr>
+                                </>
+                              )
+                            })}
+                            <div className="d-flex justify-content-between">
+                              <p className={styles.text5}>Tổng: </p>
+                              <p className={styles.text5}>{convertCurrency(total)}</p>
+                            </div>
+                          </Container>
+                        }
+                        <Container className={styles.warpServices} onScroll={handleScroll}>
+                          {services.length > 0 && services.map((x, i) => {
+                            return (
+                              <Row key={i}>
+                                {x[0] == 1 && <div ref={serviceRef1}></div>}
+                                {x[0] == 2 && <div ref={serviceRef2}></div>}
+                                {x[0] == 4 && <div ref={serviceRef4}></div>}
+                                {x[0] == 5 && <div ref={serviceRef5}></div>}
+                                {x[1].map(y => {
                                   return (
-                                    <>
-                                      <div className="d-flex justify-content-between pb-0">
-                                        <p className={styles.text6}>{x.product_name}</p>
-                                        <div className="d-flex">
-                                          <p className={styles.text6}>{convertCurrency(x.price)}</p>
-                                          <CloseOutlined style={{ color: "red" }} className="mt-1 ml-1" onClick={() => { cancleItem(x) }} />
-                                        </div>
-                                      </div>
-                                      <hr></hr>
-                                    </>
+                                    <Col key={y.id} xs={6} className="mb-3">
+                                      <Item data={y} parent={i} hanldeSelectService={hanldeSelectService} />
+                                    </Col>
                                   )
                                 })}
-                                <div className="d-flex justify-content-between">
-                                  <p className={styles.text5}>Tổng: </p>
-                                  <p className={styles.text5}>{convertCurrency(total)}</p>
-                                </div>
-                              </Container>
-                            }
-                            <div className="d-flex justify-content-center mt-3">
-                              <button className={`${styles.buttonAddService} p-2 w-100`}
-                                onClick={chooseServiceHanlde}
-                              >+ Thêm dịch vụ khác</button>
-                            </div>
-                          </div>
-                          <div className={`step ${choosedLocation ? "step-completed" : "step-incomplete"}`}>
-                            <h1 className={`${choosedLocation ? "step-heading" : "step-heading2"}`}> {"2. Chọn chi nhánh"} </h1>
-                            {choosedLocation ?
-                              <div className={`${styles.chooseLocation} p-3 d-flex justify-content-between`}>
-                                <span>{nameLoctionSelect}</span>
-                                <CloseOutlined onClick={cancelChooseLocation} />
-                              </div>
-                              :
-                              <>
-                                <Select
-                                  showSearch
-                                  placeholder="Chọn chi nhánh"
-                                  optionFilterProp="children"
-                                  onChange={onChange}
-                                  className="w-100"
-                                  defaultValue={"Hà Nội"}
-                                  filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
-                                >
-                                  <Option value="Hà Nội">Hà Nội</Option>
-                                  <Option value="TP Hồ Chí Minh">TP Hồ Chí Minh</Option>
-                                </Select>
-
-                                <Radio.Group onChange={onChaneLocation} value={selectLocation} className="mt-2">
-                                  <Space direction="vertical">
-                                    {stores.map(x => {
-                                      return <Radio key={x.id} value={x.id}>{x.name_store}</Radio>
-                                    })}
-                                  </Space>
-                                </Radio.Group>
-
-                              </>
-                            }
-                          </div>
-                          <div className={`step ${chooseHour === "" ? "step-incomplete-last" : "step-completed-last"}`}>
-                            <h1 className={`${chooseHour === "" ? "step-heading2" : "step-heading"}`}> {"3. Chọn thời gian"} </h1>
-                            <div className="mb-3">
-                              <DatePicker onChange={onChangeDate} className="w-100" placeholder="Chọn thời gian" />
-                            </div>
-                            {chooseDate.length > 0 ?
-                              <>
-                                <p className={styles.text4}>Chọn khung giờ (từ 9h30 sáng đến 19h30)</p>
-                                <Row className="mt-3">
-                                  {timesEnum.map((x, i) => {
-                                    return <Col>
-                                      <Tag key={i} xs={3}
-                                        style={{ width: "4rem", cursor: "pointer", background: `${chooseIndexHour == i ? "#FFE9E2" : "white"}` }} className={`mb-2 p-1 text-center `}
-                                        onClick={() => { hanldeChoseHour(x.value, i) }}
-                                      >
-                                        {x.label}
-                                      </Tag></Col>
-                                  })}
-                                </Row>
-                              </>
-                              : ""}
-                          </div>
-                          <div>
-                            <p className={styles.textNote}
-                              onClick={hanldeCreateNote}
-                            >Tạo ghi chú</p>
-                          </div>
-                        </div>
-                        <div className="d-flex justify-content-center">
-                          <button className={`${styles.textSubmit} pt-1 pb-1 pl-4 pr-4`}
-                            onClick={hanldeSubmit}
-                          >
-                            Đặt lịch
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </> : <>
-                    <div className={`${styles.text2} p-3 d-flex`} onClick={hanldeBack}>
-                      <ArrowLeftOutlined className="mt-2 mr-1" />
-                      <span className={`${styles.text3}`}>Quay lại</span>
-                    </div>
-                    <div style={{ background: "white", borderRadius: "8px" }} className="p-2 w-100" >
-                      <div className="d-flex justify-content-center">
-                        <Tabs activeKey={chooseIndex} onChange={onChangeTabs} className="w-100 text-center" tabBarStyle={{ fontSize: "8px" }}>
-                          {categories.length > 0 && categories.map(x => {
-                            return <TabPane tab={x.name} key={x.id}>
-                            </TabPane>
-                          })}
-                        </Tabs>
-                      </div>
-                      {selectServices.length > 0 &&
-                        <Container className={`${styles.checkOut} mb-1 m-1 pt-2 pb-2`}>
-                          {selectServices.map(x => {
-                            return (
-                              <>
-                                <div className="d-flex justify-content-between pb-0">
-                                  <p className={styles.text6}>{x.product_name}</p>
-                                  <div className="d-flex">
-                                    <p className={styles.text6}>{convertCurrency(x.price)}</p>
-                                    <CloseOutlined style={{ color: "red" }} className="mt-1 ml-1" onClick={() => { cancleItem(x) }} />
-                                  </div>
-                                </div>
-                                <hr></hr>
-                              </>
+                              </Row>
                             )
                           })}
-                          <div className="d-flex justify-content-between">
-                            <p className={styles.text5}>Tổng: </p>
-                            <p className={styles.text5}>{convertCurrency(total)}</p>
-                          </div>
                         </Container>
-                      }
-                      <Container className={styles.warpServices} onScroll={handleScroll}>
-                        {services.length > 0 && services.map((x, i) => {
-                          return (
-                            <Row >
-                              {x[0] == 1 && <div ref={serviceRef1}></div>}
-                              {x[0] == 2 && <div ref={serviceRef2}></div>}
-                              {x[0] == 4 && <div ref={serviceRef4}></div>}
-                              {x[0] == 5 && <div ref={serviceRef5}></div>}
-                              {x[1].map(y => {
-                                return (
-                                  <Col xs={6} className="mb-3">
-                                    <Item data={y} parent={i} hanldeSelectService={hanldeSelectService} />
-                                  </Col>
-                                )
-                              })}
-                            </Row>
-                          )
-                        })}
-                      </Container>
-                      <div className="d-flex justify-content-center p-2">
-                        <button className={styles.button2} onClick={hanldeBack}>Tiếp tục</button>
+                        <div className="d-flex justify-content-center p-2">
+                          <button className={styles.button2} onClick={hanldeBack}>Tiếp tục</button>
+                        </div>
                       </div>
-                    </div>
+                    </>}
                   </>}
-                </>}
+              </div>
             </div>
-            {/* </div> */}
           </Col>
         </Row>
       }
     </>
   )
 }
-export async function getServerSideProps() {
+export async function getServerSideProps(ctx) {
   // Fetch data from external API
-  const res = await Api.get(`/api/public/categories?id=${16408}`)
+  const session = await getSession(ctx);
+  const res = await Api.get(`/api/public/categories?id=${session?.user.id || ""}`)
   const { data } = res
-
   // Pass data to the page via props
   return { props: { data: data } }
+
 }

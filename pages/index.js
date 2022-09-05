@@ -19,7 +19,6 @@ export default function Home({
 }) {
   useEffect(async()=>{
     const data = await fetchAPI("/bookings")
-    console.log("data",data)
   })
   return (
     <>
