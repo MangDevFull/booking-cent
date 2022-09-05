@@ -10,8 +10,9 @@ import libphone from 'google-libphonenumber';
 import Api from "@/services/api"
 import { signIn } from "next-auth/react";
 import 'antd/dist/antd.css';
-import {useSession,signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import Dropdown from 'react-bootstrap/Dropdown';
+import Image from 'next/image'
 const { PhoneNumberFormat, PhoneNumberUtil } = libphone;
 const phoneUtil = PhoneNumberUtil.getInstance();
 export default function HeaderLayout() {
@@ -24,7 +25,7 @@ export default function HeaderLayout() {
   const [content, setContent] = useState("Số điện thoại của bạn là gì ạ?")
   const [otp, setOtp] = useState("")
   const [isDisable, setIsDisable] = useState(false)
-  const [link,setLink] = useState('/')
+  const [link, setLink] = useState('/')
   const handleCancel = () => {
     setLink('/')
     setPhone("")
@@ -102,15 +103,14 @@ export default function HeaderLayout() {
       message.error("Đã có lỗi xảy ra")
     }
   }
-  const hanldeClickBooking = ()=>{
+  const hanldeClickBooking = () => {
     setLink('/booking')
-    if(session){
+    if (session) {
       router.push('/booking')
-    }else{
+    } else {
       hanldeLogin()
     }
   }
-  console.log("router.pathname ",router.pathname )
   return (
     <>
       <Modal title={title} footer={null} visible={isModalVisible} onCancel={handleCancel}>
@@ -151,7 +151,14 @@ export default function HeaderLayout() {
           <Navbar expand="lg" className={styles.wrap}>
             <Container>
               <Link href={`./`}>
-                <Navbar.Brand style={{ cursor: "pointer" }} className="mr-5">Logo</Navbar.Brand>
+                <Navbar.Brand style={{ cursor: "pointer" }} className="mr-5">
+                  <Image
+                    src="/assets/images/frame.png"
+                    alt="Picture of the author"
+                    width={107}
+                    height={41}
+                  />
+                </Navbar.Brand>
               </Link>
               <Navbar.Toggle aria-controls="navbarScroll" />
               <Navbar.Collapse id="navbarScroll" className="pl-2 pr-2">
@@ -162,7 +169,7 @@ export default function HeaderLayout() {
                 >
                   <Link href={`./`}>
                     <Nav className={`mr-3`}>
-                      <a className={`${styles.textNav} ${router.pathname ==="/" ? styles.selectedNav : ""}`}>Trang chủ</a>
+                      <a className={`${styles.textNav} ${router.pathname === "/" ? styles.selectedNav : ""}`}>Trang chủ</a>
                     </Nav>
                   </Link>
                   <Link href={'./'}>
@@ -170,9 +177,9 @@ export default function HeaderLayout() {
                       <a className={`${styles.textNav}`}>Dịch vụ</a>
                     </Nav>
                   </Link>
-                    <Nav className={` mr-3`} onClick={hanldeClickBooking}>
-                      <a className={`${styles.textNav} ${router.pathname ==="/booking" ? styles.selectedNav : ""}`}>Đặt lịch</a>
-                    </Nav>
+                  <Nav className={` mr-3`} onClick={hanldeClickBooking}>
+                    <a className={`${styles.textNav} ${router.pathname === "/booking" ? styles.selectedNav : ""}`}>Đặt lịch</a>
+                  </Nav>
                   <Link href={`./`}>
                     <Nav className={` mr-3`}>
                       <a className={`${styles.textNav}`}>Tin tức</a>

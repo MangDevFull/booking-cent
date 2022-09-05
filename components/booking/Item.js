@@ -16,6 +16,7 @@ export default function Item({ data, parent, hanldeSelectService }) {
         <Image
           src={data.avata_url ? data.avata_url : "/assets/images/no-image.jpeg"}
           alt="No image"
+          className={`p-2`}
           width={500}
           height={500}
         />

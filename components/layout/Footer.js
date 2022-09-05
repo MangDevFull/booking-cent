@@ -2,9 +2,11 @@ import { Row, Container, Col } from "react-bootstrap"
 import { PhoneOutlined, DiffOutlined, HomeOutlined, MailOutlined, BankOutlined } from "@ant-design/icons"
 import styles from "./style.module.css"
 import Image from 'next/image'
+import { BackTop } from 'antd';
 export default function Footer() {
   return (
     <div className={`pt-3 ${styles.backgroud}`}>
+       <BackTop />
       <Row className="mt-5 p-2 mb-3 pt-5">
         <Col md={{ span: 10, offset: 1 }}>
           <Row style={{ borderBottom: "1px solid white" }}>

@@ -82,10 +82,9 @@
 
 .boxShawdow2 {
   box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
-  border-radius: 8px 8px 0px 0px;
   border-radius: 8px;
+  border: 1px solid #DEE1EE;
 }
-
 .textItem {
   font-weight: 400;
   font-size: 12px;

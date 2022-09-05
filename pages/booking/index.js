@@ -16,6 +16,7 @@ import OtpInput from 'react-otp-input';
 import { getSession, useSession } from "next-auth/react";
 import { fetchAPI } from "../../libs/api"
 import Image from 'next/image'
+import Router from 'next/router'
 const Item = dynamic(() => import('@/components/booking/Item'));
 const Package = dynamic(() => import('@/components/booking/Package'));
 const { PhoneNumberFormat, PhoneNumberUtil } = libphone;
@@ -59,6 +60,7 @@ export default function BookingPage({ data }) {
     }
   }))
   const [selectedPackages, setSelectedPackages] = useState([])
+  console.log("chooseIndex",chooseIndex)
   const handleCancel = () => {
     setPhone("")
     setIsValidPhone(false)
@@ -144,16 +146,16 @@ export default function BookingPage({ data }) {
   }
   const handleScroll = event => {
     const posision = event.currentTarget.scrollTop
-    if (posision < 1677) {
+    if (posision < 1565) {
       setChooseIndex("1")
     }
-    if (posision > 1677 && posision < 3924) {
+    if (posision > 1565 && posision < 3676) {
       setChooseIndex("2")
     }
-    if (posision > 3924 && posision < 8363) {
+    if (posision > 3676 && posision < 7745) {
       setChooseIndex("4")
     }
-    if (posision > 8363) {
+    if (posision > 7745) {
       setChooseIndex("5")
     }
   };
@@ -255,11 +257,13 @@ export default function BookingPage({ data }) {
         const payload = {
           "customer_name": user.full_name,
           "status": 1,
-          "date_book": new Date(`${chooseDate} ${chooseHour}`),
+          "date_book": `${chooseDate} ${chooseHour}`,
           "store_id": selectLocation,
           "note": note,
           "customer_id": user.id,
-          "booking_items": JSON.stringify(items)
+          "booking_items": JSON.stringify(items),
+          "phone": user.mobile,
+          "store_name": nameLoctionSelect
         }
         const data = await fetchAPI("/bookings", "", {
           method: 'POST',
@@ -285,6 +289,9 @@ export default function BookingPage({ data }) {
   }
   const hanldeNote = (e) => {
     setNote(e.target.value)
+  }
+  const hanldeReload = ()=>{
+    Router.reload(window.location.pathname)
   }
   return (
     <>
@@ -341,19 +348,14 @@ export default function BookingPage({ data }) {
               <div className={styles.boxShawdow} ref={serviceRef}>
                 {successOrder ?
                   <>
-                    <Row>
-                      <Col lg={12} sm={12} className="mt-5 pt-5 pl-5 pr-5">
-                        <p className={styles.text7}>Cảm ơn bạn đã đặt lịch</p>
-                        <p className={styles.text8}>Vui lòng chờ Cent Beauty xác nhận trong giây lát</p>
+                    <div className={`pl-5 pr-5 pb-5 mb-5 ${styles.checkOut}`}>
+                      <div className={` p-3`}>
+                        <Col lg={12} sm={12} className="mt-5 pt-5 pl-5 pr-5">
+                          <p className={styles.text7}>Cảm ơn bạn đã đặt lịch</p>
+                          <p className={styles.text8}>Vui lòng chờ Cent Beauty xác nhận trong giây lát</p>
+                        </Col>
                         <hr></hr>
-                      </Col>
-
-                    </Row>
-                    <Row className="mt-4">
-                      <p className={styles.text9}>Thông tin chi tiết</p>
-                    </Row>
-                    <Row className="pl-5 pr-5 pb-5 mb-5">
-                      <div className={`${styles.checkOut} p-3`}>
+                        <p className={styles.text9}>Thông tin chi tiết</p>
                         {selectedPackages.length > 0 &&
                           <>
                             <Row>
@@ -424,14 +426,17 @@ export default function BookingPage({ data }) {
                           </Col>
                         </Row>
                       </div>
-                    </Row>
+                      <div className="d-flex justify-content-center p-2">
+                          <button className={styles.button2} onClick={hanldeReload}>Đặt lịch tiếp</button>
+                        </div>
+                    </div>
                   </>
                   :
                   <>
                     {!chooseService ? <>
                       <p className={`${styles.text1} p-3`}>Đặt lịch 3 bước</p>
                       <div className="w-100">
-                        <div className="steps-card" style={{ boxShadow: "none", paddingLeft: "0x", marginTop: "0px" ,borderRadius:"0px 0px 8px 8px" }}>
+                        <div className="steps-card" style={{ boxShadow: "none", paddingLeft: "0x", marginTop: "0px", borderRadius: "0px 0px 8px 8px" }}>
                           <div className="step-list">
                             <div className={`pb-3 step ${(selectServices.length > 0 || selectedPackages.length > 0) ? "step-completed" : "step-incomplete"}`}>
                               <h1 className={`${selectServices.length > 0 ? "step-heading" : "step-heading2"}`}> {"1. Chọn dịch vụ"} </h1>
@@ -545,7 +550,7 @@ export default function BookingPage({ data }) {
                         <ArrowLeftOutlined className="mt-2 mr-1" />
                         <span className={`${styles.text3}`}>Quay lại</span>
                       </div>
-                      <div style={{ background: "white", borderRadius: "8px" }} className="p-2 w-100" >
+                      <div style={{ background: "white", borderRadius: "0px 0p 8px 8px" }} className="p-2 w-100" >
                         <div className="d-flex justify-content-center">
                           <Tabs activeKey={chooseIndex} onChange={onChangeTabs} className="w-100 text-center" tabBarStyle={{ fontSize: "8px" }}>
                             {categories.length > 0 && categories.map(x => {
