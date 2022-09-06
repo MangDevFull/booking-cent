@@ -1,4 +1,16 @@
 {
+  "../components/layout/Header.js -> @/components/authen/Login": {
+    "id": "../components/layout/Header.js -> @/components/authen/Login",
+    "files": [
+      "static/chunks/components_authen_Login_js-_bbcf0.js"
+    ]
+  },
+  "booking/index.js -> @/components/authen/Login": {
+    "id": "booking/index.js -> @/components/authen/Login",
+    "files": [
+      "static/chunks/components_authen_Login_js-_bbcf1.js"
+    ]
+  },
   "booking/index.js -> @/components/booking/Item": {
     "id": "booking/index.js -> @/components/booking/Item",
     "files": [

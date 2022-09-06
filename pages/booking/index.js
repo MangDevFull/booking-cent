@@ -3,24 +3,20 @@ import { Row, Col, Container } from "react-bootstrap"
 import styles from "@/styles/booking.module.css"
 import dynamic from 'next/dynamic'
 import { CloseOutlined, ArrowLeftOutlined } from "@ant-design/icons"
-import { Select, Radio, Space, DatePicker, Tag, Tabs, message, Modal, Button } from 'antd';
+import { Select, Radio, Space, DatePicker, Tag, Tabs, message, Modal } from 'antd';
 const { Option } = Select;
 const { TabPane } = Tabs;
 import Api from "@/services/api"
 import timesEnum from "@/enums/times.enum";
-import { signIn } from "next-auth/react";
 import _ from "lodash"
 import Head from 'next/head'
-import libphone from 'google-libphonenumber';
-import OtpInput from 'react-otp-input';
 import { getSession, useSession } from "next-auth/react";
 import { fetchAPI } from "../../libs/api"
 import Image from 'next/image'
 import Router from 'next/router'
 const Item = dynamic(() => import('@/components/booking/Item'));
 const Package = dynamic(() => import('@/components/booking/Package'));
-const { PhoneNumberFormat, PhoneNumberUtil } = libphone;
-const phoneUtil = PhoneNumberUtil.getInstance();
+const Login = dynamic(() => import('@/components/authen/Login'));
 
 export default function BookingPage({ data }) {
   const { data: session } = useSession();
@@ -45,12 +41,6 @@ export default function BookingPage({ data }) {
   const [successOrder, setSuccessOrder] = useState(false)
   const [chooseIndex, setChooseIndex] = useState("1")
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [phone, setPhone] = useState("")
-  const [isValidPhone, setIsValidPhone] = useState(false)
-  const [title, setTitle] = useState("Đăng nhập")
-  const [content, setContent] = useState("Số điện thoại của bạn là gì ạ?")
-  const [otp, setOtp] = useState("")
-  const [isDisable, setIsDisable] = useState(false)
   const [isModalVisibleNote, setIsModalVisibleNote] = useState(false);
   const [note, setNote] = useState("")
   const [packages, setPackages] = useState(data.data.package[0].map(x => {
@@ -62,77 +52,7 @@ export default function BookingPage({ data }) {
   const [selectedPackages, setSelectedPackages] = useState([])
   const [isDisableSubmit, setIsDisableSubmit] = useState(false)
   const handleCancel = () => {
-    setPhone("")
-    setIsValidPhone(false)
     setIsModalVisible(false)
-  }
-  const hanldePhone = (e) => {
-    setPhone(e.target.value)
-  }
-  const hanldeCheckPhone = async (e) => {
-    setIsDisable(true)
-    e.preventDefault()
-    const reg = /^\d+$/;
-    if (reg.test(phone)) {
-      const number = phoneUtil.parse(phone, 'VN');
-      if (phoneUtil.isValidNumber(number)) {
-        const payload = {
-          phone: phone
-        }
-        try {
-          const res = await Api.post('/api/login-phone', payload)
-          const { data } = res
-          if (data.code === 200) {
-            setTitle("Nhập mã OTP")
-            setContent("Bạn vui lòng nhập mã OTP")
-            setIsValidPhone(true)
-            setIsDisable(false)
-          } else {
-            console.log("test")
-            message.error("Số điện thoại không hợp lệ")
-            setIsDisable(false)
-          }
-        } catch (error) {
-          message.error("Xin vui lòng thử lại")
-          setIsDisable(false)
-        }
-      } else {
-        message.error("Số điện thoại không hợp lệ")
-        setIsDisable(false)
-      }
-    } else {
-      message.error("Số điện thoại không hợp lệ")
-      setIsDisable(false)
-    }
-  }
-  const hanldeChangeOtp = (e) => {
-    setOtp(e)
-  }
-  const cancelOtp = () => {
-    setPhone("")
-    setIsValidPhone(false)
-  }
-  const hnaldeCheckOtp = async (e) => {
-    e.preventDefault()
-    try {
-      const res = await signIn("cent-login-otp", {
-        phone: phone,
-        otp: otp,
-        redirect: false,
-      });
-      if (res.error == null) {
-        setIsModalVisible(false)
-        setPhone("")
-        setOtp("")
-        setIsValidPhone(false)
-        setContent("Số điện thoại của bạn là gì ạ?")
-        setTitle("Đăng nhập")
-      } else {
-        message.error("Mã OTP không hợp lệ")
-      }
-    } catch (error) {
-      message.error("Đã có lỗi xảy ra")
-    }
   }
 
   useEffect(() => {
@@ -309,40 +229,7 @@ export default function BookingPage({ data }) {
       {!session ?
         <Row>
           <Col sm={12} xs={12}>
-            <Modal title={title} footer={null} visible={session ? isModalVisible : true} onCancel={handleCancel}>
-              <p className={`${styles.text5} text-center`}>{content}</p>
-              <Row>
-                {!isValidPhone ? <Col xs={12} lg={12} sm={12}>
-                  <form>
-                    <input className={styles.inputPhone} onChange={hanldePhone} placeholder=" Nhập số diện thoại của bạn" />
-                    <button type="submit" className={`${styles.buttonLogin2} mt-2 mb-2`}
-                      onClick={hanldeCheckPhone}
-                      disabled={isDisable}
-                    >Tiếp tục</button>
-                  </form>
-                </Col> : <Col xs={12} lg={12} sm={12}>
-                  <div className="d-flex justify-content-center">
-                    <OtpInput
-                      value={otp}
-                      onChange={hanldeChangeOtp}
-                      numInputs={6}
-                      isInputNum={true}
-                      shouldAutoFocus={true}
-                      inputStyle={{ maxWidth: "4rem", borderRadius: "4px", border: "2px solid #a3a3a3", maxHeight: "4rem", marginRight: "1rem", minHeight: "2.4rem", minWidth: "2.4rem" }}
-                    />
-                  </div>
-
-                  <div className="d-flex mt-4">
-                    <button className={styles.buttonCan}
-                      onClick={cancelOtp}
-                    >Quay lại</button>
-                    <button className={styles.buttonLogin2}
-                      onClick={hnaldeCheckOtp}
-                    >Tiếp tục</button>
-                  </div>
-                </Col>}
-              </Row>
-            </Modal>
+            <Login isModalVisible={session ? isModalVisible : true} handleCancel={handleCancel} link={"/booking"} />
           </Col>
         </Row>
         :

@@ -1,12 +1,12 @@
-
-import { useEffect } from "react";
-import {getStrapiURL,fetchAPI} from "../libs/api"
+import Head from "next/head";
 export default function Home() {
-  useEffect(async()=>{
-    const data = await fetchAPI("/bookings")
-  })
   return (
     <>
+      <Head>
+        <title>
+          Trang chủ
+        </title>
+      </Head>
     </>
   );
 }
