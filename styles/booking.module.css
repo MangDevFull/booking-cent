@@ -321,3 +321,10 @@
   color: #222;
   width: 100%;
 }
+.checkIcon{
+  position: absolute;
+  margin-left:-1.3rem;
+  color: white;
+  font-size: 15px;
+  z-index: 3;
+}

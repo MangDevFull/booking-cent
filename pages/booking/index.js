@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Row, Col, Container } from "react-bootstrap"
 import styles from "@/styles/booking.module.css"
 import dynamic from 'next/dynamic'
-import { CloseOutlined, ArrowLeftOutlined } from "@ant-design/icons"
+import { CloseOutlined, ArrowLeftOutlined,CheckOutlined } from "@ant-design/icons"
 import { Select, Radio, Space, DatePicker, Tag, Tabs, message, Modal } from 'antd';
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -354,6 +354,7 @@ export default function BookingPage({ data }) {
                       <div className="w-100">
                         <div className="steps-card" style={{ boxShadow: "none", paddingLeft: "0x", marginTop: "0px", borderRadius: "0px 0px 8px 8px" }}>
                           <div className="step-list">
+                          {(selectServices.length > 0 || selectedPackages.length > 0) && <CheckOutlined className={styles.checkIcon} />}
                             <div className={`pb-3 step ${(selectServices.length > 0 || selectedPackages.length > 0) ? "step-completed" : "step-incomplete"}`}>
                               <h1 className={`${selectServices.length > 0 ? "step-heading" : "step-heading2"}`}> {"1. Chọn dịch vụ"} </h1>
                               <div>
@@ -391,6 +392,7 @@ export default function BookingPage({ data }) {
                               </div>
                             </div>
                             <div className={`pb-3 step ${chooseLocation ? "step-completed" : "step-incomplete"}`}>
+                            {chooseLocation &&<CheckOutlined className={styles.checkIcon} />}
                               <h1 className={`${chooseLocation ? "step-heading" : "step-heading2"}`}> {"2. Chọn chi nhánh"} </h1>
                               {chooseLocation ?
                                 <div className={`${styles.chooseLocation} p-3 d-flex justify-content-between`}>
@@ -424,6 +426,7 @@ export default function BookingPage({ data }) {
                               }
                             </div>
                             <div className={`step ${chooseHour === "" ? "step-incomplete-last" : "step-completed-last"}`}>
+                              {chooseHour !== "" &&<CheckOutlined className={styles.checkIcon} />}
                               <h1 className={`${chooseHour === "" ? "step-heading2" : "step-heading"}`}> {"3. Chọn thời gian"} </h1>
                               <div className="mb-3">
                                 <DatePicker onChange={onChangeDate}
