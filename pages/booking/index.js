@@ -14,12 +14,14 @@ import { getSession, useSession } from "next-auth/react";
 import { fetchAPI } from "../../libs/api"
 import Image from 'next/image'
 import Router from 'next/router'
+import { useSelector } from 'react-redux'
 const Item = dynamic(() => import('@/components/booking/Item'));
 const Package = dynamic(() => import('@/components/booking/Package'));
 const Login = dynamic(() => import('@/components/authen/Login'));
 
 export default function BookingPage({ data }) {
   const { data: session } = useSession();
+  const isMobile = useSelector((state) => state.layouts.isMobile)
   const serviceRef5 = useRef(null)
   const serviceRef4 = useRef(null)
   const serviceRef1 = useRef(null)
@@ -54,7 +56,6 @@ export default function BookingPage({ data }) {
   const handleCancel = () => {
     setIsModalVisible(false)
   }
-
   useEffect(() => {
     const findP = packages.filter(x => x.selected)
     setSelectedPackages(findP)
@@ -67,17 +68,32 @@ export default function BookingPage({ data }) {
   }
   const handleScroll = event => {
     const position = event.currentTarget.scrollTop
-    if (position < 1565) {
-      setChooseIndex("1")
-    }
-    if (position > 1565 && position < 3676) {
-      setChooseIndex("2")
-    }
-    if (position > 3676 && position < 7745) {
-      setChooseIndex("4")
-    }
-    if (position > 7745) {
-      setChooseIndex("5")
+    if (isMobile) {
+      if (position <= 1400) {
+        setChooseIndex("1")
+      }
+      if (position > 1408 && position <= 3294) {
+        setChooseIndex("2")
+      }
+      if (position > 3294 && position <= 7018) {
+        setChooseIndex("4")
+      }
+      if (position > 7018) {
+        setChooseIndex("5")
+      }
+    } else {
+      if (position <= 1565) {
+        setChooseIndex("1")
+      }
+      if (position > 1565 && position <= 3676) {
+        setChooseIndex("2")
+      }
+      if (position > 3676 && position <= 7745) {
+        setChooseIndex("4")
+      }
+      if (position > 7745) {
+        setChooseIndex("5")
+      }
     }
   };
   useEffect(() => {
@@ -233,8 +249,8 @@ export default function BookingPage({ data }) {
           </Col>
         </Row>
         :
-        <Row className="m-1">
-          <Modal title="Tạo ghi chú" visible={isModalVisibleNote} onOk={handleCancelNote} onCancel={handleCancelNote}>
+        <Row>
+          <Modal title={note.length > 0 ? "Sửa ghi chú":"Tạo ghi chú"} visible={isModalVisibleNote} onOk={handleCancelNote} onCancel={handleCancelNote}>
             <textarea rows={4} placeholder="Tạo ghi chú" onChange={handleNote} className="w-100" />
           </Modal>
           <Col md={{ span: 4, offset: 4 }}>
@@ -352,18 +368,17 @@ export default function BookingPage({ data }) {
                                   {selectServices.map(x => {
                                     return (
                                       <>
-                                        <div className="d-flex justify-content-between pb-0">
+                                        <div className="d-flex justify-content-between pb-0 border-bottom pt-2">
                                           <p className={styles.text6}>{x.product_name}</p>
                                           <div className="d-flex">
                                             <p className={styles.text6}>{convertCurrency(x.price)}</p>
                                             <CloseOutlined style={{ color: "red" }} className="mt-1 ml-1" onClick={() => { cancelItem(x) }} />
                                           </div>
                                         </div>
-                                        <hr></hr>
                                       </>
                                     )
                                   })}
-                                  <div className="d-flex justify-content-between">
+                                  <div className="d-flex justify-content-between pt-2">
                                     <p className={styles.text5}>Tổng: </p>
                                     <p className={styles.text5}>{convertCurrency(total)}</p>
                                   </div>
@@ -412,16 +427,17 @@ export default function BookingPage({ data }) {
                               <h1 className={`${chooseHour === "" ? "step-heading2" : "step-heading"}`}> {"3. Chọn thời gian"} </h1>
                               <div className="mb-3">
                                 <DatePicker onChange={onChangeDate}
-                                 className="w-100" placeholder="Chọn thời gian" />
+                                  placement="center"
+                                  className="w-100" placeholder="Chọn thời gian" />
                               </div>
                               {chooseDate.length > 0 ?
                                 <>
                                   <p className={styles.text4}>Chọn khung giờ (từ 9h30 sáng đến 19h30)</p>
                                   <Row>
                                     {timesEnum.map((x, i) => {
-                                      return <Col key={i}>
-                                        <Tag key={i} xs={3}
-                                          style={{ width: "4rem", cursor: "pointer", background: `${chooseIndexHour == i ? "#FFE9E2" : "white"}` }} className={`mb-2 p-1 text-center `}
+                                      return <Col key={i} xs={3} lg={3} sm={3}>
+                                        <Tag key={i}
+                                          style={{ width: "4rem", minWidth: "2rem", cursor: "pointer", background: `${chooseIndexHour == i ? "#FFE9E2" : "white"}` }} className={`mb-2 p-1 text-center `}
                                           onClick={() => { handleChooseHour(x.value, i) }}
                                         >
                                           {x.label}
@@ -434,7 +450,7 @@ export default function BookingPage({ data }) {
                             <div>
                               <p className={styles.textNote}
                                 onClick={handleCreateNote}
-                              >Tạo ghi chú</p>
+                              >{note.length > 0 ? "Sửa ghi chú":"Tạo ghi chú"}</p>
                             </div>
                           </div>
                           <div className="d-flex justify-content-center">
@@ -466,18 +482,17 @@ export default function BookingPage({ data }) {
                             {selectServices.map(x => {
                               return (
                                 <>
-                                  <div className="d-flex justify-content-between pb-0">
+                                  <div className="d-flex justify-content-between border-bottom pt-2">
                                     <p className={styles.text6}>{x.product_name}</p>
                                     <div className="d-flex">
                                       <p className={styles.text6}>{convertCurrency(x.price)}</p>
                                       <CloseOutlined style={{ color: "red" }} className="mt-1 ml-1" onClick={() => { cancelItem(x) }} />
                                     </div>
                                   </div>
-                                  <hr></hr>
                                 </>
                               )
                             })}
-                            <div className="d-flex justify-content-between">
+                            <div className="d-flex justify-content-between pt-2">
                               <p className={styles.text5}>Tổng: </p>
                               <p className={styles.text5}>{convertCurrency(total)}</p>
                             </div>
