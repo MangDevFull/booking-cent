@@ -44,7 +44,7 @@
   background-size: 100%;
 }
 
-.boxShawdow {
+.boxShadow {
   box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
   border-radius: 8px 8px 0px 0px;
   border-radius: 8px;
@@ -323,8 +323,9 @@
 }
 .checkIcon{
   position: absolute;
-  margin-left:-1.3rem;
+  margin-left: -1.12rem;
   color: white;
-  font-size: 15px;
+  font-size: 10px;
   z-index: 3;
+  margin-top: 0.15rem;
 }

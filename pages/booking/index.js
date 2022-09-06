@@ -2,10 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { Row, Col, Container } from "react-bootstrap"
 import styles from "@/styles/booking.module.css"
 import dynamic from 'next/dynamic'
-import { CloseOutlined, ArrowLeftOutlined,CheckOutlined } from "@ant-design/icons"
+import { CloseOutlined, ArrowLeftOutlined, CheckOutlined } from "@ant-design/icons"
 import { Select, Radio, Space, DatePicker, Tag, Tabs, message, Modal } from 'antd';
-const { Option } = Select;
-const { TabPane } = Tabs;
 import Api from "@/services/api"
 import timesEnum from "@/enums/times.enum";
 import _ from "lodash"
@@ -18,6 +16,8 @@ import { useSelector } from 'react-redux'
 const Item = dynamic(() => import('@/components/booking/Item'));
 const Package = dynamic(() => import('@/components/booking/Package'));
 const Login = dynamic(() => import('@/components/authen/Login'));
+const { Option } = Select;
+const { TabPane } = Tabs;
 
 export default function BookingPage({ data }) {
   const { data: session } = useSession();
@@ -249,8 +249,8 @@ export default function BookingPage({ data }) {
           </Col>
         </Row>
         :
-        <Row>
-          <Modal title={note.length > 0 ? "Sửa ghi chú":"Tạo ghi chú"} visible={isModalVisibleNote} onOk={handleCancelNote} onCancel={handleCancelNote}>
+        <Row className="mb-3">
+          <Modal title={note.length > 0 ? "Sửa ghi chú" : "Tạo ghi chú"} visible={isModalVisibleNote} onOk={handleCancelNote} onCancel={handleCancelNote}>
             <textarea rows={4} placeholder="Tạo ghi chú" onChange={handleNote} className="w-100" />
           </Modal>
           <Col md={{ span: 4, offset: 4 }}>
@@ -261,7 +261,7 @@ export default function BookingPage({ data }) {
                 width={460}
                 height={62}
               />
-              <div className={styles.boxShawdow} ref={serviceRef}>
+              <div className={styles.boxShadow} ref={serviceRef}>
                 {successOrder ?
                   <>
                     <div className={`pl-5 pr-5 pb-5 mb-5 ${styles.checkOut}`}>
@@ -292,10 +292,10 @@ export default function BookingPage({ data }) {
                         {selectServices.length > 0 &&
                           <>
                             <Row>
-                              <Col lg={3}>
+                              <Col lg={4}>
                                 Dịch vụ:
                               </Col>
-                              <Col lg={9}>
+                              <Col lg={8}>
                                 <ul className="pl-0">
                                   {selectServices.map((x, i) => {
                                     return <li key={x.id}>{`${i + 1}. ${x.product_name}`}</li>
@@ -307,37 +307,37 @@ export default function BookingPage({ data }) {
                           </>
                         }
                         <Row>
-                          <Col lg={3}>
+                          <Col lg={4}>
                             Cơ sở:
                           </Col>
-                          <Col lg={9}>
+                          <Col lg={8}>
                             {nameLocationSelect}
                           </Col>
                         </Row>
                         <hr />
                         <Row>
-                          <Col lg={3}>
+                          <Col lg={4}>
                             Tổng tiền:
                           </Col>
-                          <Col lg={9}>
+                          <Col lg={8}>
                             {convertCurrency(total)}
                           </Col>
                         </Row>
                         <hr />
                         <Row>
-                          <Col lg={3}>
+                          <Col lg={4}>
                             Thời gian
                           </Col>
-                          <Col lg={9}>
+                          <Col lg={8}>
                             {`${chooseHour} ${chooseDate}`}
                           </Col>
                         </Row>
                         <hr />
                         <Row>
-                          <Col lg={3}>
+                          <Col lg={4}>
                             Trạng thái
                           </Col>
-                          <Col lg={9}>
+                          <Col lg={8}>
                             Chờ xác nhận
                           </Col>
                         </Row>
@@ -354,7 +354,7 @@ export default function BookingPage({ data }) {
                       <div className="w-100">
                         <div className="steps-card" style={{ boxShadow: "none", paddingLeft: "0x", marginTop: "0px", borderRadius: "0px 0px 8px 8px" }}>
                           <div className="step-list">
-                          {(selectServices.length > 0 || selectedPackages.length > 0) && <CheckOutlined className={styles.checkIcon} />}
+                            {(selectServices.length > 0 || selectedPackages.length > 0) && <CheckOutlined className={styles.checkIcon} />}
                             <div className={`pb-3 step ${(selectServices.length > 0 || selectedPackages.length > 0) ? "step-completed" : "step-incomplete"}`}>
                               <h1 className={`${selectServices.length > 0 ? "step-heading" : "step-heading2"}`}> {"1. Chọn dịch vụ"} </h1>
                               <div>
@@ -392,7 +392,7 @@ export default function BookingPage({ data }) {
                               </div>
                             </div>
                             <div className={`pb-3 step ${chooseLocation ? "step-completed" : "step-incomplete"}`}>
-                            {chooseLocation &&<CheckOutlined className={styles.checkIcon} />}
+                              {chooseLocation && <CheckOutlined className={styles.checkIcon} />}
                               <h1 className={`${chooseLocation ? "step-heading" : "step-heading2"}`}> {"2. Chọn chi nhánh"} </h1>
                               {chooseLocation ?
                                 <div className={`${styles.chooseLocation} p-3 d-flex justify-content-between`}>
@@ -426,7 +426,7 @@ export default function BookingPage({ data }) {
                               }
                             </div>
                             <div className={`step ${chooseHour === "" ? "step-incomplete-last" : "step-completed-last"}`}>
-                              {chooseHour !== "" &&<CheckOutlined className={styles.checkIcon} />}
+                              {chooseHour !== "" && <CheckOutlined className={styles.checkIcon} />}
                               <h1 className={`${chooseHour === "" ? "step-heading2" : "step-heading"}`}> {"3. Chọn thời gian"} </h1>
                               <div className="mb-3">
                                 <DatePicker onChange={onChangeDate}
@@ -453,7 +453,7 @@ export default function BookingPage({ data }) {
                             <div>
                               <p className={styles.textNote}
                                 onClick={handleCreateNote}
-                              >{note.length > 0 ? "Sửa ghi chú":"Tạo ghi chú"}</p>
+                              >{note.length > 0 ? "Sửa ghi chú" : "Tạo ghi chú"}</p>
                             </div>
                           </div>
                           <div className="d-flex justify-content-center">
