@@ -3,9 +3,9 @@
 import {Checkbox} from "antd"
 import { Container,Row,Col } from "react-bootstrap";
 import styles from "@/styles/booking.module.css"
-export default function Package({data,hanldeCheckPackage}){
+export default function Package({data,handleCheckPackage}){
   const onChange = () => {
-    hanldeCheckPackage(data.id)
+    handleCheckPackage(data.id)
   };
   return(
     <div className="d-flex mt-3 mb-4">

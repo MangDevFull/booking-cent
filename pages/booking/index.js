@@ -26,10 +26,10 @@ export default function BookingPage({ data }) {
   const serviceRef2 = useRef(null)
   const serviceRef = useRef(null)
   const [selectLocation, setSelectLocation] = useState(0)
-  const [nameLoctionSelect, setNameLocationSelect] = useState("")
+  const [nameLocationSelect, setNameLocationSelect] = useState("")
   const [location, setLocation] = useState("Hà Nội")
   const [stores, setStores] = useState([])
-  const [choosedLocation, setChoosedLocation] = useState(false)
+  const [chooseLocation, setChooseLocation] = useState(false)
   const [selectServices, setSelectServices] = useState([])
   const [chooseService, setChooseService] = useState(false)
   const [chooseDate, setChooseDate] = useState("")
@@ -60,23 +60,23 @@ export default function BookingPage({ data }) {
     setSelectedPackages(findP)
   }, [packages])
 
-  const hanldeCheckPackage = (id) => {
+  const handleCheckPackage = (id) => {
     const findIndex = packages.findIndex(x => x.id == id)
     packages[findIndex].selected = !packages[findIndex].selected
     setPackages([...packages])
   }
   const handleScroll = event => {
-    const posision = event.currentTarget.scrollTop
-    if (posision < 1565) {
+    const position = event.currentTarget.scrollTop
+    if (position < 1565) {
       setChooseIndex("1")
     }
-    if (posision > 1565 && posision < 3676) {
+    if (position > 1565 && position < 3676) {
       setChooseIndex("2")
     }
-    if (posision > 3676 && posision < 7745) {
+    if (position > 3676 && position < 7745) {
       setChooseIndex("4")
     }
-    if (posision > 7745) {
+    if (position > 7745) {
       setChooseIndex("5")
     }
   };
@@ -84,7 +84,7 @@ export default function BookingPage({ data }) {
     const converted = services.map(x => {
       return x[1]
     })
-    const filter = _.flatten(converted).filter(x => x.isCkecked)
+    const filter = _.flatten(converted).filter(x => x.isChecked)
     const sum = _.sumBy(filter, (x) => x.price)
     setTotal(sum)
     setSelectServices(filter)
@@ -92,14 +92,14 @@ export default function BookingPage({ data }) {
   const onChange = (value) => {
     setLocation(value)
   };
-  const onChaneLocation = (e) => {
+  const onChangeLocation = (e) => {
     setSelectLocation(e.target.value)
     const filter = stores.filter(x => x.id === e.target.value)
     setNameLocationSelect(`${filter[0].name_store} ${filter[0].address}`)
-    setChoosedLocation(true)
+    setChooseLocation(true)
   }
   const cancelChooseLocation = () => {
-    setChoosedLocation(false)
+    setChooseLocation(false)
     setSelectLocation(0)
   }
   useEffect(() => {
@@ -112,10 +112,10 @@ export default function BookingPage({ data }) {
       setStores(data.data)
     }
   }
-  const chooseServiceHanlde = async () => {
+  const chooseServiceHandle = async () => {
     setChooseService(true)
   }
-  const hanldeBack = () => {
+  const handleBack = () => {
     setChooseService(false)
   }
   const onChangeDate = (date, dateString) => {
@@ -123,7 +123,7 @@ export default function BookingPage({ data }) {
     setChooseIndexHour(-1)
     setChooseHour("")
   }
-  const hanldeChoseHour = (x, i) => {
+  const handleChooseHour = (x, i) => {
     setChooseIndexHour(i)
     setChooseHour(x)
   }
@@ -143,20 +143,20 @@ export default function BookingPage({ data }) {
     let res = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data)
     return res;
   };
-  const hanldeSelectService = (x, y) => {
+  const handleSelectService = (x, y) => {
     const index = services[x][1].findIndex(x => x.id == y)
-    services[x][1][index].isCkecked = !services[x][1][index].isCkecked
+    services[x][1][index].isChecked = !services[x][1][index].isChecked
     setServices([...services])
   }
-  const cancleItem = (x) => {
+  const cancelItem = (x) => {
     const index = services.findIndex(y => {
       return y[0] == x.category_id
     })
     const filter = services[index][1].findIndex(z => z.id == x.id)
-    services[index][1][filter].isCkecked = false
+    services[index][1][filter].isChecked = false
     setServices([...services])
   }
-  const hanldeSubmit = async () => {
+  const handleSubmit = async () => {
     try {
       setIsDisableSubmit(true)
       let mess = []
@@ -189,7 +189,7 @@ export default function BookingPage({ data }) {
           "customer_id": user.id,
           "booking_items": JSON.stringify(items),
           "phone": user.mobile,
-          "store_name": nameLoctionSelect
+          "store_name": nameLocationSelect
         }
         const data = await fetchAPI("/bookings", "", {
           method: 'POST',
@@ -209,16 +209,16 @@ export default function BookingPage({ data }) {
       setIsDisableSubmit(false)
     }
   }
-  const hanldeCreateNote = () => {
+  const handleCreateNote = () => {
     setIsModalVisibleNote(true)
   }
   const handleCancelNote = () => {
     setIsModalVisibleNote(false)
   }
-  const hanldeNote = (e) => {
+  const handleNote = (e) => {
     setNote(e.target.value)
   }
-  const hanldeReload = () => {
+  const handleReload = () => {
     Router.reload(window.location.pathname)
   }
   return (
@@ -235,7 +235,7 @@ export default function BookingPage({ data }) {
         :
         <Row className="m-1">
           <Modal title="Tạo ghi chú" visible={isModalVisibleNote} onOk={handleCancelNote} onCancel={handleCancelNote}>
-            <textarea rows={4} placeholder="Tạo ghi chú" onChange={hanldeNote} className="w-100" />
+            <textarea rows={4} placeholder="Tạo ghi chú" onChange={handleNote} className="w-100" />
           </Modal>
           <Col md={{ span: 4, offset: 4 }}>
             <div className={`${styles.background} pl-3 pt-3 pr-3 pb-3`}>
@@ -295,7 +295,7 @@ export default function BookingPage({ data }) {
                             Cơ sở:
                           </Col>
                           <Col lg={9}>
-                            {nameLoctionSelect}
+                            {nameLocationSelect}
                           </Col>
                         </Row>
                         <hr />
@@ -327,7 +327,7 @@ export default function BookingPage({ data }) {
                         </Row>
                       </div>
                       <div className="d-flex justify-content-center p-2">
-                        <button className={styles.button2} onClick={hanldeReload}>Đặt lịch tiếp</button>
+                        <button className={styles.button2} onClick={handleReload}>Đặt lịch tiếp</button>
                       </div>
                     </div>
                   </>
@@ -343,7 +343,7 @@ export default function BookingPage({ data }) {
                               <div>
                                 {
                                   packages.map((x => {
-                                    return <Package key={x.id} data={x} hanldeCheckPackage={hanldeCheckPackage} />
+                                    return <Package key={x.id} data={x} handleCheckPackage={handleCheckPackage} />
                                   }))
                                 }
                               </div>
@@ -356,7 +356,7 @@ export default function BookingPage({ data }) {
                                           <p className={styles.text6}>{x.product_name}</p>
                                           <div className="d-flex">
                                             <p className={styles.text6}>{convertCurrency(x.price)}</p>
-                                            <CloseOutlined style={{ color: "red" }} className="mt-1 ml-1" onClick={() => { cancleItem(x) }} />
+                                            <CloseOutlined style={{ color: "red" }} className="mt-1 ml-1" onClick={() => { cancelItem(x) }} />
                                           </div>
                                         </div>
                                         <hr></hr>
@@ -371,15 +371,15 @@ export default function BookingPage({ data }) {
                               }
                               <div className="d-flex justify-content-center mt-3">
                                 <button className={`${styles.buttonAddService} p-2 w-100`}
-                                  onClick={chooseServiceHanlde}
+                                  onClick={chooseServiceHandle}
                                 >+ {(selectServices.length > 0 || selectedPackages.length > 0) ? "Thêm dịch vụ khác" : "Chọn dịch vụ cần đặt lịch"}</button>
                               </div>
                             </div>
-                            <div className={`pb-3 step ${choosedLocation ? "step-completed" : "step-incomplete"}`}>
-                              <h1 className={`${choosedLocation ? "step-heading" : "step-heading2"}`}> {"2. Chọn chi nhánh"} </h1>
-                              {choosedLocation ?
+                            <div className={`pb-3 step ${chooseLocation ? "step-completed" : "step-incomplete"}`}>
+                              <h1 className={`${chooseLocation ? "step-heading" : "step-heading2"}`}> {"2. Chọn chi nhánh"} </h1>
+                              {chooseLocation ?
                                 <div className={`${styles.chooseLocation} p-3 d-flex justify-content-between`}>
-                                  <span>{nameLoctionSelect}</span>
+                                  <span>{nameLocationSelect}</span>
                                   <CloseOutlined onClick={cancelChooseLocation} className="mt-1" />
                                 </div>
                                 :
@@ -397,7 +397,7 @@ export default function BookingPage({ data }) {
                                     <Option value="TP Hồ Chí Minh">TP Hồ Chí Minh</Option>
                                   </Select>
 
-                                  <Radio.Group onChange={onChaneLocation} value={selectLocation} className="mt-2 mb-3">
+                                  <Radio.Group onChange={onChangeLocation} value={selectLocation} className="mt-2 mb-3">
                                     <Space direction="vertical">
                                       {stores.map(x => {
                                         return <Radio key={x.id} value={x.id}>{x.name_store}</Radio>
@@ -412,9 +412,6 @@ export default function BookingPage({ data }) {
                               <h1 className={`${chooseHour === "" ? "step-heading2" : "step-heading"}`}> {"3. Chọn thời gian"} </h1>
                               <div className="mb-3">
                                 <DatePicker onChange={onChangeDate}
-                                 getPopupContainer={(triggerNode) => {
-                                  return triggerNode.parentNode;
-                                }}
                                  className="w-100" placeholder="Chọn thời gian" />
                               </div>
                               {chooseDate.length > 0 ?
@@ -425,7 +422,7 @@ export default function BookingPage({ data }) {
                                       return <Col key={i}>
                                         <Tag key={i} xs={3}
                                           style={{ width: "4rem", cursor: "pointer", background: `${chooseIndexHour == i ? "#FFE9E2" : "white"}` }} className={`mb-2 p-1 text-center `}
-                                          onClick={() => { hanldeChoseHour(x.value, i) }}
+                                          onClick={() => { handleChooseHour(x.value, i) }}
                                         >
                                           {x.label}
                                         </Tag></Col>
@@ -436,13 +433,13 @@ export default function BookingPage({ data }) {
                             </div>
                             <div>
                               <p className={styles.textNote}
-                                onClick={hanldeCreateNote}
+                                onClick={handleCreateNote}
                               >Tạo ghi chú</p>
                             </div>
                           </div>
                           <div className="d-flex justify-content-center">
                             <button className={`${styles.textSubmit} pt-1 pb-1 pl-4 pr-4`}
-                              onClick={hanldeSubmit}
+                              onClick={handleSubmit}
                               disabled={isDisableSubmit}
                             >
                               Đặt lịch
@@ -451,7 +448,7 @@ export default function BookingPage({ data }) {
                         </div>
                       </div>
                     </> : <>
-                      <div className={`${styles.text2} p-3 d-flex`} onClick={hanldeBack}>
+                      <div className={`${styles.text2} p-3 d-flex`} onClick={handleBack}>
                         <ArrowLeftOutlined className="mt-2 mr-1" />
                         <span className={`${styles.text3}`}>Quay lại</span>
                       </div>
@@ -473,7 +470,7 @@ export default function BookingPage({ data }) {
                                     <p className={styles.text6}>{x.product_name}</p>
                                     <div className="d-flex">
                                       <p className={styles.text6}>{convertCurrency(x.price)}</p>
-                                      <CloseOutlined style={{ color: "red" }} className="mt-1 ml-1" onClick={() => { cancleItem(x) }} />
+                                      <CloseOutlined style={{ color: "red" }} className="mt-1 ml-1" onClick={() => { cancelItem(x) }} />
                                     </div>
                                   </div>
                                   <hr></hr>
@@ -497,7 +494,7 @@ export default function BookingPage({ data }) {
                                 {x[1].map(y => {
                                   return (
                                     <Col key={y.id} xs={6} lg={6} sm={6} className="mb-3">
-                                      <Item data={y} parent={i} hanldeSelectService={hanldeSelectService} />
+                                      <Item data={y} parent={i} handleSelectService={handleSelectService} />
                                     </Col>
                                   )
                                 })}
@@ -506,7 +503,7 @@ export default function BookingPage({ data }) {
                           })}
                         </Container>
                         <div className="d-flex justify-content-center p-2">
-                          <button className={styles.button2} onClick={hanldeBack}>Tiếp tục</button>
+                          <button className={styles.button2} onClick={handleBack}>Tiếp tục</button>
                         </div>
                       </div>
                     </>}

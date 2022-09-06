@@ -2,13 +2,13 @@ import { useState } from "react";
 import styles from "@/styles/booking.module.css"
 import Image from 'next/image'
 import { Radio } from 'antd';
-export default function Item({ data, parent, hanldeSelectService }) {
+export default function Item({ data, parent, handleSelectService }) {
   function convertCurrency(data) {
     let res = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data)
     return res;
   };
-  const hanldeChoose = () => {
-    hanldeSelectService(parent, data.id)
+  const handleChoose = () => {
+    handleSelectService(parent, data.id)
   }
   return (
     <div className={`${styles.boxShawdow2} h-100`}>
@@ -20,7 +20,7 @@ export default function Item({ data, parent, hanldeSelectService }) {
           width={500}
           height={500}
         />
-        <Radio onClick={hanldeChoose} checked={data.isCkecked} className="ml-1">
+        <Radio onClick={handleChoose} checked={data.isChecked} className="ml-1">
             <p className={`${styles.textItem}`}>{data.product_name}</p>
         </Radio>
 
