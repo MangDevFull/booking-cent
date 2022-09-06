@@ -411,7 +411,11 @@ export default function BookingPage({ data }) {
                             <div className={`step ${chooseHour === "" ? "step-incomplete-last" : "step-completed-last"}`}>
                               <h1 className={`${chooseHour === "" ? "step-heading2" : "step-heading"}`}> {"3. Chọn thời gian"} </h1>
                               <div className="mb-3">
-                                <DatePicker onChange={onChangeDate} className="w-100" placeholder="Chọn thời gian" />
+                                <DatePicker onChange={onChangeDate}
+                                 getPopupContainer={(triggerNode) => {
+                                  return triggerNode.parentNode;
+                                }}
+                                 className="w-100" placeholder="Chọn thời gian" />
                               </div>
                               {chooseDate.length > 0 ?
                                 <>

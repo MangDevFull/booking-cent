@@ -55,6 +55,7 @@
     "react-payment-card-component": "^0.2.1",
     "react-paypal-button": "^4.1.1",
     "react-rating-stars-component": "^2.2.0",
+    "react-resizable": "^3.0.4",
     "react-router-dom": "^6.2.2",
     "react-scroll": "^1.8.7",
     "react-select": "^5.2.2",
