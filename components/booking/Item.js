@@ -11,7 +11,7 @@ export default function Item({ data, parent, handleSelectService }) {
     handleSelectService(parent, data.id)
   }
   return (
-    <div className={`${styles.boxShawdow2} h-100`}>
+    <div className={`${styles.boxShadow2} h-100`}>
       <div>
         <Image
           src={data.avata_url ? data.avata_url : "/assets/images/no-image.jpeg"}

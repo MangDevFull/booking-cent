@@ -13,6 +13,7 @@ import { fetchAPI } from "../../libs/api"
 import Image from 'next/image'
 import Router from 'next/router'
 import { useSelector } from 'react-redux'
+import moment from 'moment';
 const Item = dynamic(() => import('@/components/booking/Item'));
 const Package = dynamic(() => import('@/components/booking/Package'));
 const Login = dynamic(() => import('@/components/authen/Login'));
@@ -53,6 +54,19 @@ export default function BookingPage({ data }) {
   }))
   const [selectedPackages, setSelectedPackages] = useState([])
   const [isDisableSubmit, setIsDisableSubmit] = useState(false)
+  const disabledDate = (current) => {
+    // Can not select days before today
+    return current < moment().startOf('day');
+  };
+  const onUnload = (e) => {
+    let message = "Bạn có chắc muốn huỷ bỏ sự thay đổi"
+    e.returnValue = message
+    return message
+  }
+  useEffect(() => {
+    window.addEventListener("beforeunload", onUnload);
+    return window.removeEventListener('beforeunload', onUnload)
+  })
   const handleCancel = () => {
     setIsModalVisible(false)
   }
@@ -204,6 +218,7 @@ export default function BookingPage({ data }) {
           "note": note,
           "customer_id": user.id,
           "booking_items": JSON.stringify(items),
+          "items": items.map(x => x.product_name).join(', \n'),
           "phone": user.mobile,
           "store_name": nameLocationSelect
         }
@@ -373,7 +388,7 @@ export default function BookingPage({ data }) {
                                           <p className={styles.text6}>{x.product_name}</p>
                                           <div className="d-flex">
                                             <p className={styles.text6}>{convertCurrency(x.price)}</p>
-                                            <CloseOutlined style={{ color: "red" }} className="mt-1 ml-1" onClick={() => { cancelItem(x) }} />
+                                            <CloseOutlined style={{ color: "#D85D5D" }} className="mt-1 ml-1" onClick={() => { cancelItem(x) }} />
                                           </div>
                                         </div>
                                       </>
@@ -397,7 +412,7 @@ export default function BookingPage({ data }) {
                               {chooseLocation ?
                                 <div className={`${styles.chooseLocation} p-3 d-flex justify-content-between`}>
                                   <span>{nameLocationSelect}</span>
-                                  <CloseOutlined onClick={cancelChooseLocation} className="mt-1" />
+                                  <CloseOutlined style={{ color: "#D85D5D" }} onClick={cancelChooseLocation} className="mt-1" />
                                 </div>
                                 :
                                 <>
@@ -428,9 +443,11 @@ export default function BookingPage({ data }) {
                             <div className={`step ${chooseHour === "" ? "step-incomplete-last" : "step-completed-last"}`}>
                               {chooseHour !== "" && <CheckOutlined className={styles.checkIcon} />}
                               <h1 className={`${chooseHour === "" ? "step-heading2" : "step-heading"}`}> {"3. Chọn thời gian"} </h1>
-                              <div className="mb-3">
+                              <div className="mb-3" >
                                 <DatePicker onChange={onChangeDate}
-                                  placement="center"
+                                  placement="auto"
+                                  defaultValue={chooseDate ==="" ?  "": moment(chooseDate,"YYYY-MM-DD")}
+                                  disabledDate={disabledDate}
                                   className="w-100" placeholder="Chọn thời gian" />
                               </div>
                               {chooseDate.length > 0 ?

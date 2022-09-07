@@ -33,7 +33,7 @@ export default function HeaderLayout() {
   return (
     <>
       <Login isModalVisible={isModalVisible} handleCancel={handleCancel} link={link} />
-      <Row className="m-1 mb-5">
+      <Row className="m-1 mb-2">
         <Col md={{ span: 10, offset: 1 }}>
           <Navbar expand="lg" className={styles.wrap}>
             <Container>

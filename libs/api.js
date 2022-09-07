@@ -32,11 +32,11 @@ export async function fetchAPI(path, urlParamsObject = {}, options = {}) {
   const requestUrl = `${getStrapiURL(
     `/api${path}${queryString ? `?${queryString}` : ""}`
   )}`;
-    console.log("mergedOptions",mergedOptions)
   // Trigger API call
   const response = await fetch(requestUrl, mergedOptions);
   // Handle response
   if (!response.ok) {
+    console.log("response",response)
     console.error(response.statusText);
     throw new Error(`An error occured please try again`);
   }
